@@ -558,8 +558,6 @@ const SECTIONS = [
         title: 'Produce',
         items: [
           'Salad Mix',
-          'Cucumber',
-          'Bell Peppers',
           'Carrots',
           'Bananas',
           'Apples',
@@ -596,6 +594,7 @@ const SECTIONS = [
         title: 'Dairy & Drinks',
         items: [
           'Whole Milk',
+          'Freezer Meals',
           'Sandwich Cheese',
           'Sandwich Condiments',
           'Greek Yogurt',
@@ -640,21 +639,17 @@ function updateProgress() {
   // Update phase summary
   const summaryEl = document.getElementById('phase-summary');
   const planKeys = [];
-  const packKeys = [];
-  const opsKeys = [];
   SECTIONS.forEach(s => {
     s.groups.forEach(g => g.items.forEach(i => {
       const k = itemKey(s.id, g.title, i);
-      if (s.color === 'pack') packKeys.push(k);
-      else if (s.color === 'plan' || s.color === 'ops' || s.color === 'crit') planKeys.push(k);
+      if (s.color === 'plan' || s.color === 'ops' || s.color === 'crit') planKeys.push(k);
     }));
   });
   const planDone = planKeys.filter(k => state[k]).length;
-  const packDone = packKeys.filter(k => state[k]).length;
+  
   summaryEl.innerHTML = `
     <div class="phase-stat"><div class="ps-num" style="color:var(--blue)">${planDone}/${planKeys.length}</div><div class="ps-label">Ops Tasks</div></div>
     <div class="phase-stat"><div class="ps-num" style="color:var(--green)">${done}/${all.length}</div><div class="ps-label">Total Done</div></div>
-    <div class="phase-stat"><div class="ps-num" style="color:var(--amber)">${packDone}/${packKeys.length}</div><div class="ps-label">Pack / Grocery</div></div>
   `;
  
   // Update tab dots
