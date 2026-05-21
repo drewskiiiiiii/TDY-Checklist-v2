@@ -1250,9 +1250,6 @@ function updateProgress() {
   document.getElementById('prog-pct').textContent = pct + '%';
   document.getElementById('prog-fill').style.width = pct + '%';
  
-  document.getElementById('phase-summary-stats').innerHTML = `
-      <div class="ps-num">${done}/${all.length}</div>
-      <div class="ps-label">Total Done</div>
   `;
  
   SECTIONS.forEach(s => {
