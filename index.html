@@ -392,7 +392,7 @@
   }
   .bottom-center {
     position: absolute; left: 50%; transform: translateX(-50%);
-    display: flex; align-items: center;
+    display: flex; align-items: center; gap: 8px;
   }
   .phase-stat { text-align: left; flex-shrink: 0; }
   .phase-stat .ps-num { font-size: 22px; font-weight: 800; color: var(--accent); }
@@ -402,7 +402,7 @@
     letter-spacing: 0.8px; margin-top: 2px;
   }
 
-  /* ── TIME CALC BOTTOM BUTTON ─────────────────────── */
+  /* ── BOTTOM BUTTONS ─────────────────────── */
   .tc-bottom-btn {
     flex: 0 0 auto;
     display: flex;
@@ -413,7 +413,7 @@
     border: 1.5px solid var(--accent-border);
     color: var(--accent);
     font-size: 11px; font-weight: 700;
-    padding: 7px 14px;
+    padding: 7px 10px;
     border-radius: var(--radius-sm);
     cursor: pointer; font-family: inherit;
     text-transform: uppercase; letter-spacing: 0.6px;
@@ -421,7 +421,7 @@
     line-height: 1.2;
     gap: 3px;
     text-align: center;
-    width: 150px;
+    width: 90px;
   }
   .tc-bottom-btn .tc-icon {
     font-size: 17px;
@@ -433,6 +433,9 @@
     border-color: var(--accent);
     box-shadow: 0 0 10px var(--accent-glow);
     color: var(--accent);
+  }
+  #tc-return-btn {
+    width: 150px;
   }
   
   .edit-actions {
@@ -639,17 +642,34 @@
   </div>
 </div>
 
-<!-- ── BOTTOM BAR ───────────────────────────────────────── -->
+<div id="tools-wrap" style="display:none; padding: 16px;">
+  <div class="tc-card">
+    <div class="tc-section-title" style="margin-top: 0;">Pubs Reference</div>
+    <p style="color: var(--muted); font-size: 13px; line-height: 1.4; margin-bottom: 12px;">
+      Quick reference materials, AFIs, and read files will be populated here.
+    </p>
+    
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <button class="tc-btn" style="text-align: left;">📚 AFI 11-2KC-135V3</button>
+      <button class="tc-btn" style="text-align: left;">📚 202v3 AMCSUP</button>
+      <button class="tc-btn" style="text-align: left;">📚 FCIFs / Read Files</button>
+    </div>
+  </div>
+</div>
+
 <div class="phase-summary">
   <div class="phase-stat" id="phase-summary-stats"></div>
 
-  <!-- Center: Time Calc / Return button -->
   <div class="bottom-center">
     <button class="tc-bottom-btn" id="tc-bottom-btn" onclick="switchTab('time-calc')">
       <span class="tc-icon">⏱</span>
       <span>Time Calc</span>
     </button>
-    <button class="tc-bottom-btn" id="tc-return-btn" style="display:none;" onclick="returnFromTC()">
+    <button class="tc-bottom-btn" id="tools-bottom-btn" onclick="switchTab('tools')">
+      <span class="tc-icon">🧰</span>
+      <span>Tools</span>
+    </button>
+    <button class="tc-bottom-btn" id="tc-return-btn" style="display:none;" onclick="returnFromSpecial()">
       <span class="tc-icon">←</span>
       <span>Return</span>
     </button>
@@ -955,42 +975,50 @@ function resetAll() {
   build();
 }
 
-// Update bottom Time Calc / Return button visibility
-function updateTcBottomBtn(id) {
+// Update bottom button visibility
+function updateBottomBtns(id) {
   const tcBtn = document.getElementById('tc-bottom-btn');
+  const toolsBtn = document.getElementById('tools-bottom-btn');
   const retBtn = document.getElementById('tc-return-btn');
-  const isTC = (id === 'time-calc');
-  if (tcBtn) tcBtn.style.display = isTC ? 'none' : 'flex';
-  if (retBtn) retBtn.style.display = isTC ? 'flex' : 'none';
+  
+  const isSpecial = (id === 'time-calc' || id === 'tools');
+  
+  if (tcBtn) tcBtn.style.display = isSpecial ? 'none' : 'flex';
+  if (toolsBtn) toolsBtn.style.display = isSpecial ? 'none' : 'flex';
+  if (retBtn) retBtn.style.display = isSpecial ? 'flex' : 'none';
 }
 
 let lastChecklistTabId = null;
 
-function returnFromTC() {
+function returnFromSpecial() {
   const target = lastChecklistTabId || (SECTIONS.length ? SECTIONS[0].id : null);
   if (target) switchTab(target);
 }
  
 function switchTab(id) {
-  if (id !== 'time-calc') lastChecklistTabId = id;
+  if (id !== 'time-calc' && id !== 'tools') lastChecklistTabId = id;
   activeTabId = id;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
   
   const isTC = (id === 'time-calc');
-  document.getElementById('sections-wrap').style.display = isTC ? 'none' : 'block';
+  const isTools = (id === 'tools');
+  const isSpecial = isTC || isTools;
+  
+  document.getElementById('sections-wrap').style.display = isSpecial ? 'none' : 'block';
   document.getElementById('tc-wrap').style.display = isTC ? 'block' : 'none';
+  document.getElementById('tools-wrap').style.display = isTools ? 'block' : 'none';
   
-  document.querySelector('.search-wrap').style.display = isTC ? 'none' : 'block';
-  document.querySelector('.progress-stats').style.display = isTC ? 'none' : 'flex';
-  document.querySelector('.progress-track').style.display = isTC ? 'none' : 'block';
+  document.querySelector('.search-wrap').style.display = isSpecial ? 'none' : 'block';
+  document.querySelector('.progress-stats').style.display = isSpecial ? 'none' : 'flex';
+  document.querySelector('.progress-track').style.display = isSpecial ? 'none' : 'block';
 
-  // Show/hide phase-summary stats and edit button, but always keep the TC button visible
-  document.getElementById('phase-summary-stats').style.visibility = isTC ? 'hidden' : '';
-  document.getElementById('edit-mode-btn').style.display = isTC ? 'none' : '';
+  // Show/hide phase-summary stats and edit button, but keep special buttons visible
+  document.getElementById('phase-summary-stats').style.visibility = isSpecial ? 'hidden' : '';
+  document.getElementById('edit-mode-btn').style.display = isSpecial ? 'none' : '';
   
-  updateTcBottomBtn(id);
+  updateBottomBtns(id);
   
-  if(!isTC) {
+  if(!isSpecial) {
     document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.dataset.section === id));
   }
 }
@@ -1301,7 +1329,7 @@ function build() {
   tabsNav.appendChild(addSecTab);
  
   updateProgress();
-  updateTcBottomBtn(activeTabId);
+  updateBottomBtns(activeTabId);
 
   if (!document.getElementById('search-input').dataset.initialized) {
      initSearch();
