@@ -388,6 +388,11 @@
     display: flex; justify-content: space-between;
     align-items: center; gap: 20px;
     transition: background-color 0.2s, border-color 0.2s;
+    position: fixed;
+  }
+  .bottom-center {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center;
   }
   .phase-stat { text-align: left; flex-shrink: 0; }
   .phase-stat .ps-num { font-size: 22px; font-weight: 800; color: var(--accent); }
@@ -638,11 +643,17 @@
 <div class="phase-summary">
   <div class="phase-stat" id="phase-summary-stats"></div>
 
-  <!-- Time Calc button — center, prominent -->
-  <button class="tc-bottom-btn" id="tc-bottom-btn" onclick="switchTab('time-calc')">
-    <span class="tc-icon">⏱</span>
-    <span>Time Calc</span>
-  </button>
+  <!-- Center: Time Calc / Return button -->
+  <div class="bottom-center">
+    <button class="tc-bottom-btn" id="tc-bottom-btn" onclick="switchTab('time-calc')">
+      <span class="tc-icon">⏱</span>
+      <span>Time Calc</span>
+    </button>
+    <button class="tc-bottom-btn" id="tc-return-btn" style="display:none;" onclick="returnFromTC()">
+      <span class="tc-icon">←</span>
+      <span>Return</span>
+    </button>
+  </div>
 
   <div class="edit-actions">
     <button class="edit-toggle-btn" id="edit-mode-btn" onclick="toggleEditMode()">Edit Checklist</button>
@@ -688,7 +699,7 @@ const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
 document.getElementById('cao-date').textContent = lastModDate.toLocaleDateString('en-US', dateOptions).toUpperCase();
 
 const DEFAULT_SECTIONS = [
-  {
+ {
     id: 'mission-planning', label: 'Mission Planning',
     groups: [
       { title: 'Mission Docs', items: [
@@ -944,13 +955,24 @@ function resetAll() {
   build();
 }
 
-// Update bottom Time Calc button active state
+// Update bottom Time Calc / Return button visibility
 function updateTcBottomBtn(id) {
-  const btn = document.getElementById('tc-bottom-btn');
-  if (btn) btn.classList.toggle('active', id === 'time-calc');
+  const tcBtn = document.getElementById('tc-bottom-btn');
+  const retBtn = document.getElementById('tc-return-btn');
+  const isTC = (id === 'time-calc');
+  if (tcBtn) tcBtn.style.display = isTC ? 'none' : 'flex';
+  if (retBtn) retBtn.style.display = isTC ? 'flex' : 'none';
+}
+
+let lastChecklistTabId = null;
+
+function returnFromTC() {
+  const target = lastChecklistTabId || (SECTIONS.length ? SECTIONS[0].id : null);
+  if (target) switchTab(target);
 }
  
 function switchTab(id) {
+  if (id !== 'time-calc') lastChecklistTabId = id;
   activeTabId = id;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
   
