@@ -1,14 +1,14 @@
 {
-  "name": "TDY Mission Checklist",
-  "short_name": "TDY Checklist",
-  "description": "Mission checklist for TDY flights",
+  "name": "Air Force TDY Checklist",
+  "short_name": "AF TDY Checklist",
+  "description": "Mission checklist for Air Force TDY flights",
   "display": "standalone",
   "start_url": "./index.html",
   "background_color": "#000000",
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "icon.png?v=2",
+      "src": "icon.png?v=3",
       "sizes": "192x192 512x512",
       "type": "image/png",
       "purpose": "any maskable"
