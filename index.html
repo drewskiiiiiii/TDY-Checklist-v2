@@ -662,283 +662,302 @@
 </div>
 
 <div id="tools-wrap" style="display:none; padding: 16px;">
-  <div class="tc-card">
-    <div class="tc-section-title" style="margin-top: 0;">Pubs Reference</div>
+  
+  <div id="tools-menu">
     <p style="color: var(--muted); font-size: 13px; line-height: 1.4; margin-bottom: 16px;">
-      Quick reference for navigating to correct guidance material and publications.
+      Select a tool below:
     </p>
-
-    <div style="display: flex; flex-direction: column;">
-      <div class="pub-group">
-        <div class="pub-title">CRM / TEM</div>
-        <div class="pub-item">11-290</div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <button class="tc-btn" style="text-align: left; padding: 16px 14px; font-size: 15px; display: flex; justify-content: space-between; align-items: center;" onclick="showToolSubpage('pubs-ref-subpage')">
+        <span>📚 Pubs Reference</span>
+        <span style="color: var(--muted); font-size: 18px; line-height: 1;">&rsaquo;</span>
+      </button>
       </div>
+  </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Haz Cargo</div>
-        <div class="pub-item">24-604 (attachments)</div>
-        <div class="pub-item">JI11-204</div>
-      </div>
+  <div id="pubs-ref-subpage" style="display:none;">
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+      <button class="tc-btn" style="padding: 6px 12px; font-size: 13px;" onclick="showToolSubpage('tools-menu')">&larr; Back</button>
+      <div class="tc-section-title" style="margin: 0;">Pubs Reference</div>
+    </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Oceanic</div>
-        <div class="pub-item">IFGs (Mildenhall’s IFG written by LeoRicciotti)</div>
-        <div class="pub-item">202v3 AMC supp (Ch 12.2)</div>
-        <div class="pub-item">3-3 (ETP calc/general msn planning)</div>
-        <div class="pub-item">GOLD (CPDLC)</div>
-        <div class="pub-item">NAT Doc 007</div>
-        <div class="pub-item">Nat Ops Bulletins (specific to FIRs)</div>
-        <div class="pub-item">Pacific/NAT resource Guides (specific to FIRs)</div>
-        <div class="pub-item">GP (general procedures/contingencies)</div>
-        <div class="pub-item">FIH - (HF freq’s/Contingencies)</div>
-        <div class="pub-item">MNPS/NAT Ops Sample Oceanic checklist</div>
-        <div class="pub-item">135v3: LPUs /15:1 glide ratio (every 1000’ of altitude eats up 15,000’=2.5NM) -FL300=85NM available</div>
-        <div class="pub-item">Pacific resource guide</div>
-        <div class="pub-item">AIP</div>
-        <div class="pub-item">AP3 / AP3a</div>
-        <div class="pub-item">Sample Oceanic Checklist</div>
-        <div class="pub-item">FAA AC-90-117 Data Link Communications</div>
-      </div>
+    <div class="tc-card" style="margin-bottom: 0;">
+      <p style="color: var(--muted); font-size: 13px; line-height: 1.4; margin-bottom: 16px;">
+        Quick reference for navigating to correct guidance material and publications.
+      </p>
 
-      <div class="pub-group">
-        <div class="pub-title">Air Navigation</div>
-        <div class="pub-item">AFPAM 11-216</div>
-      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div class="pub-group">
+          <div class="pub-title">CRM / TEM</div>
+          <div class="pub-item">11-290</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">“DR CANS” - RNAV loading Procedures</div>
-        <div class="pub-item">AIM 5-1-16</div>
-        <div class="pub-item">Dash 1 Section II — Published (RNAV) Approach Procedures</div>
-        <div class="pub-item">202v3 AMC Sup — 6.2 Area Navigation (RNAV) Operations and RNP Operations</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Haz Cargo</div>
+          <div class="pub-item">24-604 (attachments)</div>
+          <div class="pub-item">JI11-204</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Space Available Reg</div>
-        <div class="pub-item">DODI 4515.13</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Oceanic</div>
+          <div class="pub-item">IFGs (Mildenhall’s IFG written by LeoRicciotti)</div>
+          <div class="pub-item">202v3 AMC supp (Ch 12.2)</div>
+          <div class="pub-item">3-3 (ETP calc/general msn planning)</div>
+          <div class="pub-item">GOLD (CPDLC)</div>
+          <div class="pub-item">NAT Doc 007</div>
+          <div class="pub-item">Nat Ops Bulletins (specific to FIRs)</div>
+          <div class="pub-item">Pacific/NAT resource Guides (specific to FIRs)</div>
+          <div class="pub-item">GP (general procedures/contingencies)</div>
+          <div class="pub-item">FIH - (HF freq’s/Contingencies)</div>
+          <div class="pub-item">MNPS/NAT Ops Sample Oceanic checklist</div>
+          <div class="pub-item">135v3: LPUs /15:1 glide ratio (every 1000’ of altitude eats up 15,000’=2.5NM) -FL300=85NM available</div>
+          <div class="pub-item">Pacific resource guide</div>
+          <div class="pub-item">AIP</div>
+          <div class="pub-item">AP3 / AP3a</div>
+          <div class="pub-item">Sample Oceanic Checklist</div>
+          <div class="pub-item">FAA AC-90-117 Data Link Communications</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">ATC Controlling regs</div>
-        <div class="pub-item">FAAO 7110.65</div>
-        <div class="pub-item">AFI 204v3</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Air Navigation</div>
+          <div class="pub-item">AFPAM 11-216</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Air Traffic Publications</div>
-        <div class="pub-item">AIM</div>
-        <div class="pub-item">Pilot/Controller Glossary</div>
-        <div class="pub-item">JO 7340.2P, Contractions</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">“DR CANS” - RNAV loading Procedures</div>
+          <div class="pub-item">AIM 5-1-16</div>
+          <div class="pub-item">Dash 1 Section II — Published (RNAV) Approach Procedures</div>
+          <div class="pub-item">202v3 AMC Sup — 6.2 Area Navigation (RNAV) Operations and RNP Operations</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">ARFF Fire Fighting</div>
-        <div class="pub-item">11-208</div>
-        <div class="pub-item">Giant Reports</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Space Available Reg</div>
+          <div class="pub-item">DODI 4515.13</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Protection Levels (PL)</div>
-        <div class="pub-item">AFI 31-101</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">ATC Controlling regs</div>
+          <div class="pub-item">FAAO 7110.65</div>
+          <div class="pub-item">AFI 204v3</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Secrets Reg</div>
-        <div class="pub-item">17-201</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Air Traffic Publications</div>
+          <div class="pub-item">AIM</div>
+          <div class="pub-item">Pilot/Controller Glossary</div>
+          <div class="pub-item">JO 7340.2P, Contractions</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">618AOC / TACC Reg</div>
-        <div class="pub-item">11–208</div>
-        <div class="pub-item">11-221</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">ARFF Fire Fighting</div>
+          <div class="pub-item">11-208</div>
+          <div class="pub-item">Giant Reports</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Coronet Goodies</div>
-        <div class="pub-item">11-221 ch4</div>
-        <div class="pub-item">3-3 ch9</div>
-        <div class="pub-item">7610.14</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Protection Levels (PL)</div>
+          <div class="pub-item">AFI 31-101</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">SARM</div>
-        <div class="pub-item">11-401</div>
-        <div class="pub-item">AMC Sup table A2.1 has 781 entries how to</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Secrets Reg</div>
+          <div class="pub-item">17-201</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Weather wx</div>
-        <div class="pub-item">203v1</div>
-        <div class="pub-item">203v2</div>
-        <div class="pub-item">15 OWS, Scott AFB – Northeastern NORTHCOM (https://15ows.us.af.mil)</div>
-        <div class="pub-item">17 OWS, Hickam AFB – PACOM and Alaskan NORTHCOM (https://17ows.us.af.mil)</div>
-        <div class="pub-item">21 OWS, Kapaun – EUCOM and AFRICOM (https://21ows.us.af.mil)</div>
-        <div class="pub-item">25 OWS, Davis-Monthan AFB – Western NORTHCOM or SOUTHCOM (https://25ows.us.af.mil)</div>
-        <div class="pub-item">26 OWS, Barksdale AFB – Southern NORTHCOM (https://26ows.us.af.mil)</div>
-        <div class="pub-item">28 OWS, Shaw AFB – CENTCOM (https://28ows.us.af.mil)</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">618AOC / TACC Reg</div>
+          <div class="pub-item">11–208</div>
+          <div class="pub-item">11-221</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Tier Waiver Regulations</div>
-        <div class="pub-item">DAFMAN 90-161 Attachment 10</div>
-        <div class="pub-item">13-204v3</div>
-        <div class="pub-item">JO.65</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Coronet Goodies</div>
+          <div class="pub-item">11-221 ch4</div>
+          <div class="pub-item">3-3 ch9</div>
+          <div class="pub-item">7610.14</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Mx Regs</div>
-        <div class="pub-item">TO 00-20-1 (Ch 4 — Red x, dash and slash definitions)</div>
-        <div class="pub-item">TO 1C-135-6WC-1 (Mx work cards — details inspections Pre-flight, Basic Post-Flight, Quick Turn Times & requirement. This is where you find Pre-flight, thru-flight, quick,turn, basic post flight)</div>
-        <div class="pub-item">TO 2-2-2 (Vortex generators at the bottom of the horizontal stabs. 4 total, 2 on ea side max)</div>
-        <div class="pub-item">TO 3-2-1</div>
-        <div class="pub-item">When using a huffer cart, try to get a “Dash 60” bc it has both elec & air</div>
-        <div class="pub-item">1C-135-2-11-40-6 chapter 4.6 (FMS All the fault codes broken down by component)</div>
-        <div class="pub-item">1C-135-2-2-2 (Ground servicing)</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">SARM</div>
+          <div class="pub-item">11-401</div>
+          <div class="pub-item">AMC Sup table A2.1 has 781 entries how to</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Aeromedical Evacuation Configuration</div>
-        <div class="pub-item">AFMAN 11-2AEv3 addenda-a (Ch 1, 3, 6, 9.3 fig 9.7)</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Weather wx</div>
+          <div class="pub-item">203v1</div>
+          <div class="pub-item">203v2</div>
+          <div class="pub-item">15 OWS, Scott AFB – Northeastern NORTHCOM (https://15ows.us.af.mil)</div>
+          <div class="pub-item">17 OWS, Hickam AFB – PACOM and Alaskan NORTHCOM (https://17ows.us.af.mil)</div>
+          <div class="pub-item">21 OWS, Kapaun – EUCOM and AFRICOM (https://21ows.us.af.mil)</div>
+          <div class="pub-item">25 OWS, Davis-Monthan AFB – Western NORTHCOM or SOUTHCOM (https://25ows.us.af.mil)</div>
+          <div class="pub-item">26 OWS, Barksdale AFB – Southern NORTHCOM (https://26ows.us.af.mil)</div>
+          <div class="pub-item">28 OWS, Shaw AFB – CENTCOM (https://28ows.us.af.mil)</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">DoD Mission Priority List</div>
-        <div class="pub-item">CJCSI 4120.02E</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Tier Waiver Regulations</div>
+          <div class="pub-item">DAFMAN 90-161 Attachment 10</div>
+          <div class="pub-item">13-204v3</div>
+          <div class="pub-item">JO.65</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">PILOT/CONTROLLER GLOSSARY</div>
-        <div class="pub-item">Exists, search by name in EPUBs</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Mx Regs</div>
+          <div class="pub-item">TO 00-20-1 (Ch 4 — Red x, dash and slash definitions)</div>
+          <div class="pub-item">TO 1C-135-6WC-1 (Mx work cards — details inspections Pre-flight, Basic Post-Flight, Quick Turn Times & requirement. This is where you find Pre-flight, thru-flight, quick,turn, basic post flight)</div>
+          <div class="pub-item">TO 2-2-2 (Vortex generators at the bottom of the horizontal stabs. 4 total, 2 on ea side max)</div>
+          <div class="pub-item">TO 3-2-1</div>
+          <div class="pub-item">When using a huffer cart, try to get a “Dash 60” bc it has both elec & air</div>
+          <div class="pub-item">1C-135-2-11-40-6 chapter 4.6 (FMS All the fault codes broken down by component)</div>
+          <div class="pub-item">1C-135-2-2-2 (Ground servicing)</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">FAA Airport Markings</div>
-        <div class="pub-item">Advisory Circular No: 150/5340-1L</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Aeromedical Evacuation Configuration</div>
+          <div class="pub-item">AFMAN 11-2AEv3 addenda-a (Ch 1, 3, 6, 9.3 fig 9.7)</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">BASH Phases & BWC</div>
-        <div class="pub-item">AFI 91-212</div>
-        <div class="pub-item">MACDILLAFI91-212 (Every airfield has it’s own location-specific 91-212)</div>
-        <div class="pub-item">Maybe 13-204</div>
-        <div class="pub-item">11-202v3 AMC supp — ch 12</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">DoD Mission Priority List</div>
+          <div class="pub-item">CJCSI 4120.02E</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Post-Deployment R&R</div>
-        <div class="pub-item">AMCI 10-403, paragraph 7.2</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">PILOT/CONTROLLER GLOSSARY</div>
+          <div class="pub-item">Exists, search by name in EPUBs</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Risk Management & OR</div>
-        <div class="pub-item">90-802 (AMC supp)</div>
-        <div class="pub-item">90-903</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">FAA Airport Markings</div>
+          <div class="pub-item">Advisory Circular No: 150/5340-1L</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Deployability & DAV codes</div>
-        <div class="pub-item">10-403 attachment 2</div>
-        <div class="pub-item">AFI 36-2134</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">BASH Phases & BWC</div>
+          <div class="pub-item">AFI 91-212</div>
+          <div class="pub-item">MACDILLAFI91-212 (Every airfield has it’s own location-specific 91-212)</div>
+          <div class="pub-item">Maybe 13-204</div>
+          <div class="pub-item">11-202v3 AMC supp — ch 12</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Wake Turbulence Categories</div>
-        <div class="pub-item">JO 7360.1G</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Post-Deployment R&R</div>
+          <div class="pub-item">AMCI 10-403, paragraph 7.2</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Special Departure Procedures (SDP)</div>
-        <div class="pub-item">Guide on good reader - Pg153</div>
-        <div class="pub-item">My apple notes gouge this folder</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Risk Management & OR</div>
+          <div class="pub-item">90-802 (AMC supp)</div>
+          <div class="pub-item">90-903</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Mission Number & Mission Symbols</div>
-        <div class="pub-item">Search in good reader “mission number” and “mission symbol” respectively</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Deployability & DAV codes</div>
+          <div class="pub-item">10-403 attachment 2</div>
+          <div class="pub-item">AFI 36-2134</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Anti-icing Procedures</div>
-        <div class="pub-item">Fairchild Cold wx Guide</div>
-        <div class="pub-item">FAA Holdover times Guidelines</div>
-        <div class="pub-item">TO 42C-1-2 Anti Ice</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Wake Turbulence Categories</div>
+          <div class="pub-item">JO 7360.1G</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Security</div>
-        <div class="pub-item">31-101</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Special Departure Procedures (SDP)</div>
+          <div class="pub-item">Guide on good reader - Pg153</div>
+          <div class="pub-item">My apple notes gouge this folder</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">AFE</div>
-        <div class="pub-item">11-301v1</div>
-        <div class="pub-item">Physio</div>
-        <div class="pub-item">11-223</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Mission Number & Mission Symbols</div>
+          <div class="pub-item">Search in good reader “mission number” and “mission symbol” respectively</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Marshaling</div>
-        <div class="pub-item">11-218 AMC Sup</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Anti-icing Procedures</div>
+          <div class="pub-item">Fairchild Cold wx Guide</div>
+          <div class="pub-item">FAA Holdover times Guidelines</div>
+          <div class="pub-item">TO 42C-1-2 Anti Ice</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Safety Regs</div>
-        <div class="pub-item">91-204 AMC sup</div>
-        <div class="pub-item">91-223</div>
-        <div class="pub-item">91-225</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Security</div>
+          <div class="pub-item">31-101</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Planning</div>
-        <div class="pub-item">11-202v3</div>
-        <div class="pub-item">11-214 (“Knock-it-off”, “Terminate”, etc.)</div>
-        <div class="pub-item">135v3</div>
-        <div class="pub-item">11-216</div>
-        <div class="pub-item">3-3</div>
-        <div class="pub-item">3342</div>
-        <div class="pub-item">3342 National SRD</div>
-        <div class="pub-item">11-218</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">AFE</div>
+          <div class="pub-item">11-301v1</div>
+          <div class="pub-item">Physio</div>
+          <div class="pub-item">11-223</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Instructor Management</div>
-        <div class="pub-item">11-215</div>
-        <div class="pub-item">11-215 AMC Sup</div>
-        <div class="pub-item">11-290 AETC Sup</div>
-        <div class="pub-item">11-202v2</div>
-        <div class="pub-item">11-202v3</div>
-        <div class="pub-item">135v3</div>
-        <div class="pub-item">11-401</div>
-        <div class="pub-item">11-401 AMC Sup</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Marshaling</div>
+          <div class="pub-item">11-218 AMC Sup</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Equipment & Software</div>
-        <div class="pub-item">11-301 AMC Sup</div>
-        <div class="pub-item">11-301v1 & v2</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Safety Regs</div>
+          <div class="pub-item">91-204 AMC sup</div>
+          <div class="pub-item">91-223</div>
+          <div class="pub-item">91-225</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Pavement Markings</div>
-        <div class="pub-item">AC 150/5340-1</div>
-        <div class="pub-item">1-1 landing</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Planning</div>
+          <div class="pub-item">11-202v3</div>
+          <div class="pub-item">11-214 (“Knock-it-off”, “Terminate”, etc.)</div>
+          <div class="pub-item">135v3</div>
+          <div class="pub-item">11-216</div>
+          <div class="pub-item">3-3</div>
+          <div class="pub-item">3342</div>
+          <div class="pub-item">3342 National SRD</div>
+          <div class="pub-item">11-218</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Orientation in Flying</div>
-        <div class="pub-item">AFPAM 11-417, para 3.6, “Runway Illusions” (3.6.1 Runway ratio, 3.6.2 Up-sloped runway, 3.6.3 Down-sloped runway, 3.6.4 Rising terrain prior to runway, 3.6.5 Down-sloping terrain prior to runway)</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Instructor Management</div>
+          <div class="pub-item">11-215</div>
+          <div class="pub-item">11-215 AMC Sup</div>
+          <div class="pub-item">11-290 AETC Sup</div>
+          <div class="pub-item">11-202v2</div>
+          <div class="pub-item">11-202v3</div>
+          <div class="pub-item">135v3</div>
+          <div class="pub-item">11-401</div>
+          <div class="pub-item">11-401 AMC Sup</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Wheel / Threshold Crossing Height</div>
-        <div class="pub-item">AC 150/5340-30J</div>
-        <div class="pub-item">UFC 3-535-01</div>
-      </div>
+        <div class="pub-group">
+          <div class="pub-title">Equipment & Software</div>
+          <div class="pub-item">11-301 AMC Sup</div>
+          <div class="pub-item">11-301v1 & v2</div>
+        </div>
 
-      <div class="pub-group">
-        <div class="pub-title">Air Refueling Centerline</div>
-        <div class="pub-item">AC 90-100A (10. U.S. RNAV FLIGHT CREW OPERATING PROCEDURES)</div>
-        <div class="pub-item">AIM 5-1-16</div>
-        <div class="pub-item">AC 90-105A Appendix E (QUALIFICATION CRITERIA FOR RNP 2 DOMESTIC, OFFSHORE, OCEANIC, AND REMOTE CONTINENTAL OPERATIONS)</div>
+        <div class="pub-group">
+          <div class="pub-title">Pavement Markings</div>
+          <div class="pub-item">AC 150/5340-1</div>
+          <div class="pub-item">1-1 landing</div>
+        </div>
+
+        <div class="pub-group">
+          <div class="pub-title">Orientation in Flying</div>
+          <div class="pub-item">AFPAM 11-417, para 3.6, “Runway Illusions” (3.6.1 Runway ratio, 3.6.2 Up-sloped runway, 3.6.3 Down-sloped runway, 3.6.4 Rising terrain prior to runway, 3.6.5 Down-sloping terrain prior to runway)</div>
+        </div>
+
+        <div class="pub-group">
+          <div class="pub-title">Wheel / Threshold Crossing Height</div>
+          <div class="pub-item">AC 150/5340-30J</div>
+          <div class="pub-item">UFC 3-535-01</div>
+        </div>
+
+        <div class="pub-group">
+          <div class="pub-title">Air Refueling Centerline</div>
+          <div class="pub-item">AC 90-100A (10. U.S. RNAV FLIGHT CREW OPERATING PROCEDURES)</div>
+          <div class="pub-item">AIM 5-1-16</div>
+          <div class="pub-item">AC 90-105A Appendix E (QUALIFICATION CRITERIA FOR RNP 2 DOMESTIC, OFFSHORE, OCEANIC, AND REMOTE CONTINENTAL OPERATIONS)</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1280,6 +1299,15 @@ function returnFromSpecial() {
   const target = lastChecklistTabId || (SECTIONS.length ? SECTIONS[0].id : null);
   if (target) switchTab(target);
 }
+
+function showToolSubpage(pageId) {
+  document.getElementById('tools-menu').style.display = 'none';
+  document.getElementById('pubs-ref-subpage').style.display = 'none';
+  if (document.getElementById(pageId)) {
+    document.getElementById(pageId).style.display = 'block';
+  }
+  window.scrollTo(0,0);
+}
  
 function switchTab(id) {
   if (id !== 'time-calc' && id !== 'tools') lastChecklistTabId = id;
@@ -1302,6 +1330,10 @@ function switchTab(id) {
   document.getElementById('phase-summary-stats').style.visibility = isSpecial ? 'hidden' : '';
   document.getElementById('edit-mode-btn').style.display = isSpecial ? 'none' : '';
   
+  if (isTools) {
+    showToolSubpage('tools-menu');
+  }
+
   updateBottomBtns(id);
   
   if(!isSpecial) {
