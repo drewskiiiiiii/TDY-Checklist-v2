@@ -37,7 +37,6 @@
     --radius-sm: 6px;
   }
   
-  /* ── LIGHT MODE VARIABLES ──────────────────────── */
   body.light-mode {
     --bg:          #ffffff;
     --surface:     #ffffff;
@@ -56,7 +55,7 @@
     color: var(--text);
     font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif;
     min-height: 100vh;
-    padding-bottom: 90px;
+    padding-bottom: 110px;
     transition: background-color 0.2s, color 0.2s;
   }
  
@@ -99,7 +98,6 @@
     transition: all 0.2s;
   }
   
-  /* ── THEME & BACKGROUND PICKER ───────────────────── */
   .theme-picker {
     display: flex; gap: 6px; align-items: center;
   }
@@ -116,17 +114,9 @@
     padding: 0;
     transition: transform 0.15s;
   }
-  .color-picker-input::-webkit-color-swatch-wrapper {
-    padding: 0;
-  }
-  .color-picker-input::-webkit-color-swatch {
-    border: 1.5px solid var(--border-hi);
-    border-radius: 50%;
-  }
-  .color-picker-input::-moz-color-swatch {
-    border: 1.5px solid var(--border-hi);
-    border-radius: 50%;
-  }
+  .color-picker-input::-webkit-color-swatch-wrapper { padding: 0; }
+  .color-picker-input::-webkit-color-swatch { border: 1.5px solid var(--border-hi); border-radius: 50%; }
+  .color-picker-input::-moz-color-swatch { border: 1.5px solid var(--border-hi); border-radius: 50%; }
   .color-picker-input:active { transform: scale(0.9); }
 
   .theme-dot {
@@ -389,40 +379,75 @@
   .item-notes::placeholder { color: var(--muted); }
   .check-item.done .item-notes { opacity: 0.4; }
  
-  /* ── BOTTOM SUMMARY ──────────────────────────────── */
+  /* ── BOTTOM BAR ──────────────────────────────────── */
   .phase-summary {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--surface);
     border-top: 1.5px solid var(--accent-border);
     padding: 10px 20px 26px;
     display: flex; justify-content: space-between;
-    align-items: center;
+    align-items: center; gap: 20px;
     transition: background-color 0.2s, border-color 0.2s;
   }
-  .phase-stat { text-align: left; }
+  .phase-stat { text-align: left; flex-shrink: 0; }
   .phase-stat .ps-num { font-size: 22px; font-weight: 800; color: var(--accent); }
   .phase-stat .ps-label {
     font-size: 10px; font-weight: 700;
     color: var(--muted); text-transform: uppercase;
     letter-spacing: 0.8px; margin-top: 2px;
   }
+
+  /* ── TIME CALC BOTTOM BUTTON ─────────────────────── */
+  .tc-bottom-btn {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface2);
+    border: 1.5px solid var(--accent-border);
+    color: var(--accent);
+    font-size: 11px; font-weight: 700;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer; font-family: inherit;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    transition: all 0.2s;
+    line-height: 1.2;
+    gap: 3px;
+    text-align: center;
+    width: 150px;
+  }
+  .tc-bottom-btn .tc-icon {
+    font-size: 17px;
+    line-height: 1;
+  }
+  .tc-bottom-btn:active { opacity: 0.6; transform: scale(0.97); }
+  .tc-bottom-btn.active {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+    color: var(--accent);
+  }
   
   .edit-actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     align-items: flex-end;
+    flex-shrink: 0;
   }
 
   .edit-toggle-btn {
     background: var(--surface2);
     border: 1px solid var(--border-hi);
     color: var(--text);
-    font-size: 13px; font-weight: 600;
-    padding: 8px 16px;
+    font-size: 12px; font-weight: 600;
+    padding: 7px 12px;
     border-radius: 20px;
     cursor: pointer; font-family: inherit;
     transition: all 0.2s;
+    white-space: nowrap;
   }
   .edit-toggle-btn.active {
     background: var(--accent-dim);
@@ -435,11 +460,12 @@
     background: transparent;
     border: 1px solid var(--border-hi);
     color: var(--red);
-    font-size: 11px; font-weight: 600;
-    padding: 5px 12px;
+    font-size: 10px; font-weight: 600;
+    padding: 4px 10px;
     border-radius: 20px;
     cursor: pointer; font-family: inherit;
     transition: all 0.2s;
+    white-space: nowrap;
   }
   body.edit-mode .restore-btn { display: block; }
   
@@ -608,8 +634,16 @@
   </div>
 </div>
 
+<!-- ── BOTTOM BAR ───────────────────────────────────────── -->
 <div class="phase-summary">
   <div class="phase-stat" id="phase-summary-stats"></div>
+
+  <!-- Time Calc button — center, prominent -->
+  <button class="tc-bottom-btn" id="tc-bottom-btn" onclick="switchTab('time-calc')">
+    <span class="tc-icon">⏱</span>
+    <span>Time Calc</span>
+  </button>
+
   <div class="edit-actions">
     <button class="edit-toggle-btn" id="edit-mode-btn" onclick="toggleEditMode()">Edit Checklist</button>
     <button class="restore-btn" id="restore-mode-btn" onclick="restoreDefaults()">Restore Defaults</button>
@@ -649,7 +683,6 @@
 </div>
  
 <script>
-// Auto-update CAO to the last modified date of the document
 const lastModDate = new Date(document.lastModified);
 const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
 document.getElementById('cao-date').textContent = lastModDate.toLocaleDateString('en-US', dateOptions).toUpperCase();
@@ -765,7 +798,6 @@ const DEFAULT_SECTIONS = [
   },
 ];
 
-// ── COLOR CONVERTER & THEME APPLY ────────────────────────────────────────────
 function hexToRgb(hex) {
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   hex = hex.replace(shorthandRegex, function(m, r, g, b) { return r + r + g + g + b + b; });
@@ -777,14 +809,11 @@ function applyCustomColor(hex) {
   const rgb = hexToRgb(hex);
   if (!rgb) return;
   const { r, g, b } = rgb;
-  
   document.documentElement.style.setProperty('--accent', hex);
   document.documentElement.style.setProperty('--accent-dim', `rgba(${r}, ${g}, ${b}, 0.18)`);
   document.documentElement.style.setProperty('--accent-border', `rgba(${r}, ${g}, ${b}, 0.45)`);
   document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.6)`);
-  
   localStorage.setItem('tdy2_theme_color', hex);
-  
   const picker = document.getElementById('custom-color-picker');
   if (picker && picker.value !== hex) picker.value = hex;
 }
@@ -800,7 +829,6 @@ function setBgMode(mode) {
     document.body.classList.remove('light-mode');
   }
   localStorage.setItem('tdy2_bg', mode);
-  
   document.querySelectorAll('.bg-dot').forEach(el => el.classList.remove('active'));
   const activeDot = document.querySelector(`.bg-dot[data-bg="${mode}"]`);
   if(activeDot) activeDot.classList.add('active');
@@ -915,6 +943,12 @@ function resetAll() {
   saveState();
   build();
 }
+
+// Update bottom Time Calc button active state
+function updateTcBottomBtn(id) {
+  const btn = document.getElementById('tc-bottom-btn');
+  if (btn) btn.classList.toggle('active', id === 'time-calc');
+}
  
 function switchTab(id) {
   activeTabId = id;
@@ -927,14 +961,18 @@ function switchTab(id) {
   document.querySelector('.search-wrap').style.display = isTC ? 'none' : 'block';
   document.querySelector('.progress-stats').style.display = isTC ? 'none' : 'flex';
   document.querySelector('.progress-track').style.display = isTC ? 'none' : 'block';
-  document.querySelector('.phase-summary').style.display = isTC ? 'none' : 'flex';
+
+  // Show/hide phase-summary stats and edit button, but always keep the TC button visible
+  document.getElementById('phase-summary-stats').style.visibility = isTC ? 'hidden' : '';
+  document.getElementById('edit-mode-btn').style.display = isTC ? 'none' : '';
+  
+  updateTcBottomBtn(id);
   
   if(!isTC) {
     document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.dataset.section === id));
   }
 }
 
-// ── DELETE ACTIONS ─────────────────────────────────────────────────────────
 function deleteSection(sIndex) {
   if (!confirm(`Delete entire section "${SECTIONS[sIndex].label}"?`)) return;
   SECTIONS.splice(sIndex, 1);
@@ -953,7 +991,6 @@ function deleteItem(sIndex, gIndex, iIndex) {
   saveSections(); build();
 }
 
-// ── ADD ACTIONS ────────────────────────────────────────────────────────────
 function addSection() {
   const name = prompt('New Section Name:');
   if (!name) return;
@@ -977,7 +1014,6 @@ function addItem(sIndex, gIndex) {
   saveSections(); build();
 }
  
-// ── SEARCH ──────────────────────────────────────────────────────────────────
 function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 function highlight(text, q) {
   return text.replace(new RegExp(`(${escRe(q)})`, 'gi'), '<mark class="search-highlight">$1</mark>');
@@ -1053,7 +1089,6 @@ function initSearch() {
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); });
 }
  
-// ── BUILD ────────────────────────────────────────────────────────────────────
 function build() {
   loadState();
   const tabsNav = document.getElementById('tabs-nav');
@@ -1128,14 +1163,12 @@ function build() {
         const newTitle = e.target.textContent.trim();
         if (newTitle && newTitle !== g.title) {
           const oldTitle = g.title;
-          
           g.items.forEach(item => {
             const oldKey = itemKey(s.id, oldTitle, item);
             const newKey = itemKey(s.id, newTitle, item);
             if (state[oldKey] !== undefined) { state[newKey] = state[oldKey]; delete state[oldKey]; }
             if (notes[oldKey] !== undefined) { notes[newKey] = notes[oldKey]; delete notes[oldKey]; }
           });
-          
           g.title = newTitle;
           saveState(); saveSections(); build(); 
         } else { e.target.textContent = g.title; }
@@ -1186,7 +1219,6 @@ function build() {
             const newKey = itemKey(s.id, g.title, newItem);
             if (state[oldKey] !== undefined) { state[newKey] = state[oldKey]; delete state[oldKey]; }
             if (notes[oldKey] !== undefined) { notes[newKey] = notes[oldKey]; delete notes[oldKey]; }
-            
             SECTIONS[sIndex].groups[gIndex].items[iIndex] = newItem;
             saveState(); saveSections(); build();
           } else {
@@ -1237,15 +1269,6 @@ function build() {
     wrap.appendChild(section);
   });
   
-  // Create Time Calc Tab
-  const tcTab = document.createElement('div');
-  tcTab.className = 'tab' + ('time-calc' === activeTabId ? ' active' : '');
-  tcTab.dataset.tab = 'time-calc';
-  tcTab.innerHTML = `<span class="tab-dot" style="background:transparent; border: 1.5px solid var(--border-hi);"></span><span style="pointer-events:none;">Time Calc</span>`;
-  tcTab.addEventListener('click', (e) => {
-    if (e.target !== tcTab.querySelector('.editable-text') && e.target !== tcTab.querySelector('.delete-btn')) switchTab('time-calc');
-  });
-  tabsNav.appendChild(tcTab);
   
   const addSecTab = document.createElement('div');
   addSecTab.className = 'tab';
@@ -1256,13 +1279,14 @@ function build() {
   tabsNav.appendChild(addSecTab);
  
   updateProgress();
+  updateTcBottomBtn(activeTabId);
+
   if (!document.getElementById('search-input').dataset.initialized) {
      initSearch();
      document.getElementById('search-input').dataset.initialized = 'true';
   }
 }
  
-// Tie the style toggle for the add section tab to the main edit toggle
 const originalToggleEditMode = toggleEditMode;
 toggleEditMode = function() {
     originalToggleEditMode();
@@ -1271,7 +1295,7 @@ toggleEditMode = function() {
 
 build();
 
-// ── TIME CALCULATOR LOGIC ──────────────────────────────────────────────────────
+// ── TIME CALCULATOR LOGIC ─────────────────────────────────────────────────────
 function initTimeCalc() {
   const tc$ = (id) => document.getElementById(id);
 
@@ -1542,7 +1566,6 @@ function initTimeCalc() {
   resetTimeCalc(); updateNowPanel(); setInterval(updateNowPanel, 30000); validateInputs();
 }
 
-// Start Time Calculator
 initTimeCalc();
 </script>
 </body>
