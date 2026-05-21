@@ -384,8 +384,8 @@
     width: 100%; 
     outline: none;
     transition: border-color 0.15s, background-color 0.2s, color 0.2s;
-    resize: none; /* Prevents manual drag resizing */
-    overflow: hidden; /* Hides internal scrollbar for auto-grow */
+    resize: none; 
+    overflow: hidden; 
     line-height: 1.4;
   }
   .item-notes:focus { border-color: var(--accent); }
@@ -410,6 +410,25 @@
     letter-spacing: 0.8px; margin-top: 2px;
   }
   
+  .edit-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .restore-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    color: var(--red);
+    font-size: 13px; font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer; font-family: inherit;
+    transition: all 0.2s;
+  }
+  body.edit-mode .restore-btn { display: inline-block; }
+
   .edit-toggle-btn {
     background: var(--surface2);
     border: 1px solid var(--border-hi);
@@ -432,7 +451,7 @@
 <div class="header">
   <div class="header-top">
     <div class="header-title-wrap">
-      <h1 class="editable-text" contenteditable="true" spellcheck="false" id="main-title">KC-135 TDY Checklist</h1>
+      <h1 class="editable-text" contenteditable="false" spellcheck="false" id="main-title">KC-135 TDY Checklist</h1>
       <div class="header-sub-row">
         <div class="cao-box">CAO: <span id="cao-date"></span></div>
         <div class="theme-picker" id="theme-picker">
@@ -475,7 +494,10 @@
 
 <div class="phase-summary">
   <div class="phase-stat" id="phase-summary-stats"></div>
-  <button class="edit-toggle-btn" id="edit-mode-btn" onclick="toggleEditMode()">Edit Checklist</button>
+  <div class="edit-actions">
+    <button class="restore-btn" id="restore-mode-btn" onclick="restoreDefaults()">Restore Defaults</button>
+    <button class="edit-toggle-btn" id="edit-mode-btn" onclick="toggleEditMode()">Edit Checklist</button>
+  </div>
 </div>
  
 <script>
@@ -597,7 +619,6 @@ const DEFAULT_SECTIONS = [
 
 // ── COLOR CONVERTER & THEME APPLY ────────────────────────────────────────────
 function hexToRgb(hex) {
-  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   hex = hex.replace(shorthandRegex, function(m, r, g, b) { return r + r + g + g + b + b; });
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -616,12 +637,10 @@ function applyCustomColor(hex) {
   
   localStorage.setItem('tdy2_theme_color', hex);
   
-  // Sync the picker value
   const picker = document.getElementById('custom-color-picker');
   if (picker && picker.value !== hex) picker.value = hex;
 }
 
-// Attach listener to the color picker
 document.getElementById('custom-color-picker').addEventListener('input', (e) => {
   applyCustomColor(e.target.value);
 });
@@ -668,15 +687,32 @@ function saveSections() {
   localStorage.setItem('tdy2_sections', JSON.stringify(SECTIONS));
 }
 
+// Strictly toggle contentEditable via JS to prevent unwanted touch focus
 function toggleEditMode() {
   isEditMode = !isEditMode;
   document.body.classList.toggle('edit-mode', isEditMode);
+  
   const btn = document.getElementById('edit-mode-btn');
   btn.textContent = isEditMode ? 'Done Editing' : 'Edit Checklist';
   btn.classList.toggle('active', isEditMode);
+  
+  // Physically unlock or lock editing based on mode
+  document.querySelectorAll('.editable-text').forEach(el => {
+      el.contentEditable = isEditMode ? "true" : "false";
+  });
+  
+  document.querySelectorAll('.add-sec-tab').forEach(el => {
+      el.style.display = isEditMode ? 'flex' : 'none';
+  });
 }
 
-// Editable Title Initialization
+function restoreDefaults() {
+  if (!confirm('Restore default categories and items? This will replace your custom checklist structure.')) return;
+  SECTIONS = JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+  saveSections();
+  build();
+}
+
 const titleEl = document.getElementById('main-title');
 titleEl.addEventListener('blur', e => {
    const newTitle = e.target.textContent.trim();
@@ -720,7 +756,7 @@ function updateProgress() {
 }
  
 function toggleItem(key, el) {
-  if (isEditMode) return; // Prevent checking off items while in edit mode
+  if (isEditMode) return; 
   state[key] = !state[key]; saveState();
   el.classList.toggle('done', state[key]);
   updateProgress();
@@ -876,10 +912,10 @@ function build() {
     tab.dataset.tab = s.id;
     tab.innerHTML = `<span class="tab-dot"></span>`;
     
-    // Editable Section Name
+    // Set editable based strictly on current isEditMode status
     const tabText = document.createElement('span');
     tabText.className = 'editable-text';
-    tabText.contentEditable = true;
+    tabText.contentEditable = isEditMode ? "true" : "false";
     tabText.spellcheck = false;
     tabText.textContent = s.label;
     
@@ -926,10 +962,9 @@ function build() {
       gh.className = 'group-header';
       gh.dataset.group = `${s.id}||${g.title}`;
       
-      // Editable Group Title
       const ghText = document.createElement('span');
       ghText.className = 'editable-text';
-      ghText.contentEditable = true;
+      ghText.contentEditable = isEditMode ? "true" : "false";
       ghText.spellcheck = false;
       ghText.textContent = g.title;
       
@@ -970,9 +1005,10 @@ function build() {
         row.className = 'check-item' + (state[key] ? ' done' : '');
  
         const noteVal = notes[key] || '';
-        // Change from input to textarea for multi-line support
         const noteHtml = `<textarea class="item-notes" placeholder="Notes…" rows="1">${noteVal.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>`;
- 
+        
+        const editableAttr = isEditMode ? 'contenteditable="true"' : 'contenteditable="false"';
+
         row.innerHTML = `
           <div class="checkbox">
             <svg class="checkmark" viewBox="0 0 11 8">
@@ -980,13 +1016,12 @@ function build() {
             </svg>
           </div>
           <div class="item-content">
-            <span class="item-label editable-text" contenteditable="true" spellcheck="false">${item}</span>
+            <span class="item-label editable-text" ${editableAttr} spellcheck="false">${item}</span>
             ${noteHtml}
           </div>
           <button class="delete-btn" onclick="deleteItem(${sIndex}, ${gIndex}, ${iIndex})">✖</button>
         `;
         
-        // Item Rename logic
         const labelEl = row.querySelector('.item-label');
         labelEl.addEventListener('blur', (e) => {
           const newItem = e.target.textContent.trim();
@@ -1013,12 +1048,10 @@ function build() {
         notesInput.addEventListener('input', e => {
           notes[key] = e.target.value; 
           saveState();
-          // Auto-resize logic
           e.target.style.height = 'auto';
           e.target.style.height = e.target.scrollHeight + 'px';
         });
         
-        // Ensure previously saved notes resize properly on page load
         if (noteVal) {
           setTimeout(() => {
             notesInput.style.height = 'auto';
@@ -1048,21 +1081,13 @@ function build() {
     wrap.appendChild(section);
   });
   
-  // Add Section Button in Tabs
   const addSecTab = document.createElement('div');
   addSecTab.className = 'tab';
-  addSecTab.style.display = 'none'; // Hidden by default
+  addSecTab.style.display = isEditMode ? 'flex' : 'none'; 
   addSecTab.classList.add('add-sec-tab');
   addSecTab.innerHTML = `<span style="font-size: 16px; font-weight: 800; line-height: 1;">+</span>`;
   addSecTab.onclick = addSection;
   tabsNav.appendChild(addSecTab);
-  
-  // If edit mode is on, ensure the + tab is visible
-  if (isEditMode) {
-      document.querySelectorAll('.add-sec-tab').forEach(el => el.style.display = 'flex');
-  } else {
-      document.querySelectorAll('.add-sec-tab').forEach(el => el.style.display = 'none');
-  }
  
   updateProgress();
   if (!document.getElementById('search-input').dataset.initialized) {
