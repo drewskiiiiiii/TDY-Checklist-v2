@@ -42,9 +42,9 @@
     --bg:          #ffffff;
     --surface:     #ffffff;
     --surface2:    #f4f5f7;
-    --border:      #000000; /* Solid black boxes around items */
-    --border-hi:   #000000; /* Solid black borders for inputs/checkboxes */
-    --text:        #000000; /* High contrast black text */
+    --border:      #000000; 
+    --border-hi:   #000000; 
+    --text:        #000000; 
     --muted:       #555555;
     --done-text:   #888888;
   }
@@ -174,7 +174,6 @@
     transition: all 0.2s;
   }
   
-  /* When Edit Mode is Active */
   body.edit-mode .delete-btn { display: inline-block; }
   body.edit-mode .add-btn { display: block; }
   
@@ -188,7 +187,6 @@
   }
   body.edit-mode .tab.active .editable-text { border-bottom-color: var(--accent); }
   
-  /* Disable normal clicking in edit mode to prioritize editing */
   body.edit-mode .check-item .checkbox,
   body.edit-mode .check-item .item-notes { pointer-events: none; opacity: 0.3; }
 
@@ -318,7 +316,7 @@
     transition: border-bottom-color 0.2s, color 0.2s;
     cursor: text;
     padding-bottom: 1px;
-    pointer-events: none; /* Disabled unless in edit mode */
+    pointer-events: none;
   }
  
   /* ── CHECKLIST ───────────────────────────────────── */
@@ -347,7 +345,6 @@
     color: var(--done-text);
   }
   
-  /* Disable strikethrough in edit mode so text is clear */
   body.edit-mode .check-item.done .item-label { text-decoration: none; color: var(--text); }
  
   /* ── CHECKBOX ────────────────────────────────────── */
@@ -412,22 +409,10 @@
   
   .edit-actions {
     display: flex;
-    gap: 10px;
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
   }
-  
-  .restore-btn {
-    display: none;
-    background: transparent;
-    border: 1px solid var(--border-hi);
-    color: var(--red);
-    font-size: 13px; font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer; font-family: inherit;
-    transition: all 0.2s;
-  }
-  body.edit-mode .restore-btn { display: inline-block; }
 
   .edit-toggle-btn {
     background: var(--surface2);
@@ -444,6 +429,73 @@
     color: var(--accent);
     border-color: var(--accent);
   }
+  
+  .restore-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    color: var(--red);
+    font-size: 11px; font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer; font-family: inherit;
+    transition: all 0.2s;
+  }
+  body.edit-mode .restore-btn { display: block; }
+  
+  /* ── TIME CALCULATOR STYLES ──────────────────────── */
+  .tc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 20px;
+  }
+  .tc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .tc-row-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
+  
+  .tc-label { display: block; color: var(--muted); font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .tc-input, .tc-select {
+    width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-hi); 
+    background: var(--surface2); color: var(--text); font-family: inherit; font-size: 15px; 
+    outline: none; transition: border-color 0.15s;
+  }
+  .tc-input:focus, .tc-select:focus { border-color: var(--accent); }
+  
+  .tc-input.error, .tc-select.error { border-color: var(--red) !important; box-shadow: 0 0 0 2px rgba(250,82,82,0.18) inset; }
+  .tc-input.ok, .tc-select.ok { border-color: var(--accent) !important; }
+  
+  .tc-btn {
+    background: var(--surface2); border: 1px solid var(--border-hi); color: var(--text); 
+    padding: 10px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .tc-btn.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+  .tc-btn.bad { border-color: var(--red) !important; box-shadow: 0 0 8px rgba(250, 82, 82, 0.5); }
+  
+  .tc-section-title { font-weight: 700; font-size: 14px; margin: 16px 0 10px; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; }
+  
+  .tc-timeline { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; margin-bottom: 20px; }
+  .tc-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 6px; border-bottom: 1px dashed var(--border-hi); }
+  .tc-line:last-child { border-bottom: none; }
+  .tc-name { font-size: 14px; color: var(--text); font-weight: 500; }
+  .tc-time { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 600; font-size: 14px; color: var(--text); }
+  .tc-hint { color: var(--muted); font-size: 11px; margin-left: 6px; font-weight: normal; }
+  
+  .tc-notice { display: none; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 20px; margin-bottom: 10px; }
+  .tc-notice.warn { display: inline-flex; background: rgba(250, 204, 21, 0.2); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.5); }
+  .tc-notice.bad { display: inline-flex; background: rgba(239, 68, 68, 0.2); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.5); }
+  
+  .tc-nowbox { background: var(--surface2); border: 1px solid var(--border-hi); border-radius: var(--radius-sm); padding: 10px; font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: var(--accent); text-align: center; }
+  
+  .tc-action-bar { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; margin-bottom: 30px; }
+  .tc-primary-btn { background: var(--surface2); border: 1px solid var(--border-hi); color: var(--text); font-weight: 600; padding: 12px; border-radius: var(--radius-sm); text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .tc-primary-btn.ready { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+  .tc-primary-btn.needs-run { box-shadow: 0 0 0 2px #facc15 inset; }
+  
+  .tc-copy-btn { width: auto; padding: 6px 12px; border-radius: 20px; background: var(--surface2); color: var(--text); border: 1px solid var(--border-hi); font-size: 12px; font-weight: 600; cursor: pointer; }
+  .tc-copy-btn:not(:disabled):hover { background: var(--accent); color: #000; border-color: var(--accent); }
+  
+  .tc-tiny { font-size: 11px; color: var(--muted); margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -456,9 +508,7 @@
         <div class="cao-box">CAO: <span id="cao-date"></span></div>
         <div class="theme-picker" id="theme-picker">
           <input type="color" id="custom-color-picker" class="color-picker-input" value="#1eb4f0" title="Choose Accent Color">
-          
           <div class="theme-sep"></div>
-          
           <div class="theme-dot bg-dot" style="background: #000000;" data-bg="dark" onclick="setBgMode('dark')"></div>
           <div class="theme-dot bg-dot" style="background: #ffffff;" data-bg="light" onclick="setBgMode('light')"></div>
         </div>
@@ -492,11 +542,109 @@
  
 <div id="sections-wrap"></div>
 
+<div id="tc-wrap" style="display:none; padding: 16px;">
+  <div class="tc-card">
+    <div class="tc-row">
+       <button id="tc-basic" class="tc-btn active">Basic</button>
+       <button id="tc-aug" class="tc-btn">Augmented</button>
+    </div>
+    <div class="tc-row" style="margin-bottom: 20px;">
+       <button id="tc-single" class="tc-btn active">Single Ship</button>
+       <button id="tc-form" class="tc-btn">Formation</button>
+    </div>
+    
+    <div class="tc-row">
+       <div>
+         <label class="tc-label">Dep Date (Z)</label>
+         <input id="tc-date" type="date" class="tc-input">
+       </div>
+       <div>
+         <label class="tc-label">Now</label>
+         <div id="tc-nowPanel" class="tc-nowbox">--:--L / --:--Z</div>
+       </div>
+    </div>
+    <div class="tc-row">
+       <div>
+         <label class="tc-label">Departure TZ</label>
+         <select id="tc-tzDep" class="tc-select"></select>
+       </div>
+       <div>
+         <label class="tc-label">Arrival TZ</label>
+         <select id="tc-tzArr" class="tc-select"></select>
+       </div>
+    </div>
+    <div class="tc-row" style="margin-bottom: 20px;">
+       <div>
+         <label class="tc-label">T/O (HH:MM Zulu)</label>
+         <input id="tc-to" type="text" inputmode="numeric" placeholder="1430 &rarr; 14:30Z" class="tc-input">
+         <div class="tc-tiny">4 digits only</div>
+       </div>
+       <div>
+         <label class="tc-label">Duration (HH:MM)</label>
+         <input id="tc-dur" type="text" inputmode="numeric" placeholder="0500 &rarr; 05:00" class="tc-input">
+       </div>
+    </div>
+    
+    <div class="tc-section-title">Offsets prior to T/O</div>
+    <div class="tc-row-4" style="margin-bottom: 0;">
+       <div><label class="tc-label">Show</label><select id="tc-off-show" class="tc-select"></select></div>
+       <div><label class="tc-label">Brief</label><select id="tc-off-brief" class="tc-select"></select></div>
+       <div><label class="tc-label">Step</label><select id="tc-off-step" class="tc-select"></select></div>
+       <div><label class="tc-label">Eng</label><select id="tc-off-eng" class="tc-select"></select></div>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+     <div class="tc-section-title" style="margin:0;">Timeline</div>
+     <span id="tc-fdpNotice" class="tc-notice" aria-live="polite"></span>
+     <button id="tc-copy" class="tc-copy-btn" disabled>Copy</button>
+  </div>
+  <div id="tc-timeline" class="tc-timeline"></div>
+
+  <div class="tc-action-bar">
+     <button id="tc-calc" class="tc-primary-btn">Calculate</button>
+     <button id="tc-defaultsBtn" class="tc-btn" style="padding: 12px 16px;">⚙️</button>
+     <button id="tc-reset" class="tc-primary-btn">Reset</button>
+  </div>
+</div>
+
 <div class="phase-summary">
   <div class="phase-stat" id="phase-summary-stats"></div>
   <div class="edit-actions">
-    <button class="restore-btn" id="restore-mode-btn" onclick="restoreDefaults()">Restore Defaults</button>
     <button class="edit-toggle-btn" id="edit-mode-btn" onclick="toggleEditMode()">Edit Checklist</button>
+    <button class="restore-btn" id="restore-mode-btn" onclick="restoreDefaults()">Restore Defaults</button>
+  </div>
+</div>
+
+<div id="tc-defaultsModal" style="display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.6); padding: 20px;">
+  <div style="max-width:500px; margin: 10vh auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px;">
+    <h2 style="font-size:18px; margin:0 0 16px; color:var(--accent);">Set Profile Defaults</h2>
+    
+    <div style="border:1px solid var(--border-hi); border-radius:var(--radius-sm); padding:12px; margin-bottom:16px;">
+      <h3 style="margin:0 0 10px; font-size:15px; color:var(--text);">Single Ship</h3>
+      <div class="tc-row-4">
+         <div><label class="tc-label">Show</label><select id="d_single_show" class="tc-select"></select></div>
+         <div><label class="tc-label">Brief</label><select id="d_single_brief" class="tc-select"></select></div>
+         <div><label class="tc-label">Step</label><select id="d_single_step" class="tc-select"></select></div>
+         <div><label class="tc-label">Eng</label><select id="d_single_eng" class="tc-select"></select></div>
+      </div>
+    </div>
+    
+    <div style="border:1px solid var(--border-hi); border-radius:var(--radius-sm); padding:12px; margin-bottom:20px;">
+      <h3 style="margin:0 0 10px; font-size:15px; color:var(--text);">Formation</h3>
+      <div class="tc-row-4">
+         <div><label class="tc-label">Show</label><select id="d_form_show" class="tc-select"></select></div>
+         <div><label class="tc-label">Brief</label><select id="d_form_brief" class="tc-select"></select></div>
+         <div><label class="tc-label">Step</label><select id="d_form_step" class="tc-select"></select></div>
+         <div><label class="tc-label">Eng</label><select id="d_form_eng" class="tc-select"></select></div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button id="tc-defaultsReset" class="tc-btn">Reset</button>
+      <button id="tc-defaultsCancel" class="tc-btn">Cancel</button>
+      <button id="tc-defaultsSave" class="tc-btn" style="background:var(--accent); color:#000; border-color:var(--accent);">Save</button>
+    </div>
   </div>
 </div>
  
@@ -687,7 +835,6 @@ function saveSections() {
   localStorage.setItem('tdy2_sections', JSON.stringify(SECTIONS));
 }
 
-// Strictly toggle contentEditable via JS to prevent unwanted touch focus
 function toggleEditMode() {
   isEditMode = !isEditMode;
   document.body.classList.toggle('edit-mode', isEditMode);
@@ -696,7 +843,6 @@ function toggleEditMode() {
   btn.textContent = isEditMode ? 'Done Editing' : 'Edit Checklist';
   btn.classList.toggle('active', isEditMode);
   
-  // Physically unlock or lock editing based on mode
   document.querySelectorAll('.editable-text').forEach(el => {
       el.contentEditable = isEditMode ? "true" : "false";
   });
@@ -773,7 +919,19 @@ function resetAll() {
 function switchTab(id) {
   activeTabId = id;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
-  document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.dataset.section === id));
+  
+  const isTC = (id === 'time-calc');
+  document.getElementById('sections-wrap').style.display = isTC ? 'none' : 'block';
+  document.getElementById('tc-wrap').style.display = isTC ? 'block' : 'none';
+  
+  document.querySelector('.search-wrap').style.display = isTC ? 'none' : 'block';
+  document.querySelector('.progress-stats').style.display = isTC ? 'none' : 'flex';
+  document.querySelector('.progress-track').style.display = isTC ? 'none' : 'block';
+  document.querySelector('.phase-summary').style.display = isTC ? 'none' : 'flex';
+  
+  if(!isTC) {
+    document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.dataset.section === id));
+  }
 }
 
 // ── DELETE ACTIONS ─────────────────────────────────────────────────────────
@@ -912,7 +1070,6 @@ function build() {
     tab.dataset.tab = s.id;
     tab.innerHTML = `<span class="tab-dot"></span>`;
     
-    // Set editable based strictly on current isEditMode status
     const tabText = document.createElement('span');
     tabText.className = 'editable-text';
     tabText.contentEditable = isEditMode ? "true" : "false";
@@ -945,7 +1102,6 @@ function build() {
     tab.addEventListener('click', (e) => {
       if (e.target !== tabText && e.target !== delSecBtn) switchTab(s.id);
     });
-    tabText.addEventListener('focus', () => switchTab(s.id));
     tabsNav.appendChild(tab);
  
     const section = document.createElement('div');
@@ -1081,6 +1237,16 @@ function build() {
     wrap.appendChild(section);
   });
   
+  // Create Time Calc Tab
+  const tcTab = document.createElement('div');
+  tcTab.className = 'tab' + ('time-calc' === activeTabId ? ' active' : '');
+  tcTab.dataset.tab = 'time-calc';
+  tcTab.innerHTML = `<span class="tab-dot" style="background:transparent; border: 1.5px solid var(--border-hi);"></span><span style="pointer-events:none;">Time Calc</span>`;
+  tcTab.addEventListener('click', (e) => {
+    if (e.target !== tcTab.querySelector('.editable-text') && e.target !== tcTab.querySelector('.delete-btn')) switchTab('time-calc');
+  });
+  tabsNav.appendChild(tcTab);
+  
   const addSecTab = document.createElement('div');
   addSecTab.className = 'tab';
   addSecTab.style.display = isEditMode ? 'flex' : 'none'; 
@@ -1104,6 +1270,280 @@ toggleEditMode = function() {
 }
 
 build();
+
+// ── TIME CALCULATOR LOGIC ──────────────────────────────────────────────────────
+function initTimeCalc() {
+  const tc$ = (id) => document.getElementById(id);
+
+  const dateEl = tc$('tc-date'), toEl = tc$('tc-to'), durEl = tc$('tc-dur');
+  const tzDepEl = tc$('tc-tzDep'), tzArrEl = tc$('tc-tzArr');
+  const offShowEl = tc$('tc-off-show'), offBriefEl = tc$('tc-off-brief'), offStepEl = tc$('tc-off-step'), offEngEl = tc$('tc-off-eng');
+  const basicBtn = tc$('tc-basic'), augBtn = tc$('tc-aug'), singleBtn = tc$('tc-single'), formBtn = tc$('tc-form');
+  const out = tc$('tc-timeline'), calcBtn = tc$('tc-calc'), resetBtn = tc$('tc-reset');
+  const nowPanel = tc$('tc-nowPanel'), copyBtn = tc$('tc-copy');
+  let lastCopyText = '';
+
+  const DEFAULTS_KEY = 'kc135.defaults.v2';
+  const SC = (obj) => JSON.parse(JSON.stringify(obj));
+  const ZERO_DEFAULTS = { enabled: false, single: { show: 0, brief: 0, step: 0, eng: 0 }, formation:{ show: 0, brief: 0, step: 0, eng: 0 } };
+
+  const el = {
+    modal: tc$('tc-defaultsModal'), btn: tc$('tc-defaultsBtn'), save: tc$('tc-defaultsSave'), cancel: tc$('tc-defaultsCancel'), reset: tc$('tc-defaultsReset'),
+    d_single_show: tc$('d_single_show'), d_single_brief: tc$('d_single_brief'), d_single_step: tc$('d_single_step'), d_single_eng: tc$('d_single_eng'),
+    d_form_show: tc$('d_form_show'), d_form_brief: tc$('d_form_brief'), d_form_step: tc$('d_form_step'), d_form_eng: tc$('d_form_eng'),
+  };
+
+  function loadDefaults(){ try { return JSON.parse(localStorage.getItem(DEFAULTS_KEY)) || SC(ZERO_DEFAULTS); } catch { return SC(ZERO_DEFAULTS); } }
+  function saveDefaults(obj){ try { localStorage.setItem(DEFAULTS_KEY, JSON.stringify(obj)); } catch (_) {} }
+
+  function cloneOptions(fromSelect, toSelect){
+    toSelect.innerHTML = '';
+    [...fromSelect.options].forEach(o=>{ const opt = document.createElement('option'); opt.value = o.value; opt.textContent = o.textContent; toSelect.appendChild(opt); });
+  }
+
+  function hydrateModalOptions(){
+    cloneOptions(offShowEl, el.d_single_show); cloneOptions(offShowEl, el.d_form_show);
+    cloneOptions(offBriefEl, el.d_single_brief); cloneOptions(offBriefEl, el.d_form_brief);
+    cloneOptions(offStepEl, el.d_single_step); cloneOptions(offStepEl, el.d_form_step);
+    cloneOptions(offEngEl, el.d_single_eng); cloneOptions(offEngEl, el.d_form_eng);
+  }
+
+  function setModalFromDefaults(d){
+    const s = d.single, f = d.formation;
+    setSelectValueAndPaint(el.d_single_show, s.show); setSelectValueAndPaint(el.d_single_brief, s.brief); setSelectValueAndPaint(el.d_single_step, s.step); setSelectValueAndPaint(el.d_single_eng, s.eng);
+    setSelectValueAndPaint(el.d_form_show, f.show); setSelectValueAndPaint(el.d_form_brief, f.brief); setSelectValueAndPaint(el.d_form_step, f.step); setSelectValueAndPaint(el.d_form_eng, f.eng);
+  }
+
+  function getDefaultsFromModal(){
+    return {
+      enabled: true,
+      single: { show: parseInt(el.d_single_show.value||'0',10), brief: parseInt(el.d_single_brief.value||'0',10), step: parseInt(el.d_single_step.value||'0',10), eng: parseInt(el.d_single_eng.value||'0',10) },
+      formation: { show: parseInt(el.d_form_show.value||'0',10), brief: parseInt(el.d_form_brief.value||'0',10), step: parseInt(el.d_form_step.value||'0',10), eng: parseInt(el.d_form_eng.value||'0',10) }
+    };
+  }
+
+  function openDefaultsModal(){ hydrateModalOptions(); el.modal.style.display = 'block'; setModalFromDefaults(loadDefaults()); }
+  function closeDefaultsModal(){ el.modal.style.display = 'none'; }
+
+  el.btn.addEventListener('click', openDefaultsModal);
+  el.save.addEventListener('click', () => { saveDefaults(getDefaultsFromModal()); const isForm = formBtn.classList.contains('active'); applyProfile(isForm ? 'FORM' : 'SINGLE'); closeDefaultsModal(); });
+  el.reset.addEventListener('click', () => { setModalFromDefaults(SC(ZERO_DEFAULTS)); });
+  el.cancel.addEventListener('click', closeDefaultsModal);
+
+  function setSelectValueAndPaint(sel, val) {
+    const v = String(val); sel.value = v;
+    if (sel.value !== v) { const idx = [...sel.options].findIndex(o => o.value === v); if (idx >= 0) sel.selectedIndex = idx; }
+    sel.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  function deviceOffsetHours(){ return - (new Date().getTimezoneOffset()) / 60; }
+  function formatOffsetLabel(off){ const sign = off>=0?'+':''; const frac = Math.abs(off) % 1; const mins = frac ? ':'+String(Math.round(frac*60)).padStart(2,'0') : ''; return `UTC${sign}${Math.trunc(off)}${mins}`; }
+  
+  function updateNowPanel(){
+    const d = new Date(); const off = deviceOffsetHours(); const local = new Date(d.getTime() + off*3600*1000);
+    const lh = String(local.getUTCHours()).padStart(2,'0'), lm = String(local.getUTCMinutes()).padStart(2,'0');
+    const zh = String(d.getUTCHours()).padStart(2,'0'), zm = String(d.getUTCMinutes()).padStart(2,'0');
+    nowPanel.textContent = `${lh}${lm}L / ${zh}${zm}Z (${formatOffsetLabel(off)})`;
+  }
+
+  function setActive(element, on){ element.classList.toggle('active', !!on); }
+  function hmm(min){ const h=Math.floor(min/60), m=min%60; return `${h}:${String(m).padStart(2,'0')}`; }
+  function maskTimeDigits(v){ v = v.replace(/[^\d]/g,'').slice(0,4); if(v.length>=3) v = v.slice(0,2)+':'+v.slice(2); return v; }
+  function padHHMM(s){ const m=/^(\d{1,2}):(\d{2})$/.exec(s||''); if(!m) return s; return `${m[1].padStart(2,'0')}:${m[2].padStart(2,'0')}`; }
+  
+  toEl.addEventListener('input', ()=> toEl.value = maskTimeDigits(toEl.value));
+  durEl.addEventListener('input', ()=> durEl.value = maskTimeDigits(durEl.value));
+  ['blur','change'].forEach(ev=>{
+    toEl.addEventListener(ev, ()=> toEl.value = padHHMM(toEl.value));
+    durEl.addEventListener(ev, ()=> durEl.value = padHHMM(durEl.value));
+  });
+
+  function parseHM(s){ if(!s || !/^\d{1,2}:\d{2}$/.test(s)) return null; const [h,m]=s.split(':').map(Number); if(h<0||h>23||m<0||m>59) return null; return {h,m}; }
+  function parseDur(s){ const p=parseHM(s); return p? p.h*60+p.m : null; }
+  function buildUTCDate(dateStr, hm){ const [Y,Mo,D]=dateStr.split('-').map(Number); return new Date(Date.UTC(Y,Mo-1,D, hm.h, hm.m,0,0)); }
+
+  function addMin(d,m){ return new Date(d.getTime()+m*60000); }
+  function fmtLocalWithOffset(dt, offsetHours){
+    const ms = dt.getTime() + offsetHours*3600*1000;
+    const hh = (new Date(ms)).getUTCHours().toString().padStart(2,'0');
+    const mm = (new Date(ms)).getUTCMinutes().toString().padStart(2,'0');
+    return `${hh}${mm}`;
+  }
+  function fmtZ(dt){ const hh=dt.getUTCHours().toString().padStart(2,'0'); const mm=dt.getUTCMinutes().toString().padStart(2,'0'); return `${hh}${mm}Z`; }
+  function fmtZuluDayTag(dt) {
+    const day = String(dt.getUTCDate()).padStart(2, '0');
+    const MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    const mon = MON[dt.getUTCMonth()];
+    return `${day}${mon} Z`;
+  }
+
+  function lineDual(name, dt, localOffset, hint, tzLabel = null) {
+    const l = document.createElement('div'); l.className = 'tc-line';
+    const left = document.createElement('div');
+    const baseLabel = tzLabel ? `${name} <span class="tc-hint">(${tzLabel})</span>` : name;
+    const withDay = (name === 'T/O' || name === 'Land') ? `${baseLabel} <span class="tc-hint">${fmtZuluDayTag(dt)}</span>` : baseLabel;
+    left.innerHTML = `<span class="tc-name">${withDay}</span>${hint ? ` <span class="tc-hint">(${hint})</span>` : ''}`;
+    const right = document.createElement('div'); right.className = 'tc-time';
+    right.textContent = `${fmtLocalWithOffset(dt, localOffset)}L / ${fmtZ(dt)}`;
+    l.appendChild(left); l.appendChild(right); out.appendChild(l);
+  }
+  function line(name, dt, off, hint){ lineDual(name, dt, off, hint); }
+
+  function tzLabelFromOffset(off){
+    const sign = off>=0?'+':''; const hours = Math.trunc(off); const mins = Math.round((Math.abs(off) - Math.floor(Math.abs(off))) * 60);
+    if(mins===0) return `UTC${sign}${hours}`; return `UTC${sign}${hours}:${String(mins).padStart(2,'0')}`;
+  }
+  function genTZOptions(select){
+    const opts = []; for(let v=-12; v<=14; v+=0.5) opts.push(v);
+    [5.75,12.75,8.75].forEach(v=>opts.push(v));
+    [...new Set(opts)].sort((a,b)=>a-b).forEach(v=>{ const o = document.createElement('option'); o.value = v; o.textContent = tzLabelFromOffset(v); select.appendChild(o); });
+  }
+
+  function getCalcSignature(){
+    return JSON.stringify({ date: dateEl.value, to: toEl.value, dur: durEl.value, tzDep: tzDepEl.value, tzArr: tzArrEl.value, offShow: offShowEl.value, offBrief: offBriefEl.value, offStep: offStepEl.value, offEng: offEngEl.value, mode, profile });
+  }
+  let lastRunSig = ''; let mode='BASIC', profile='SINGLE';
+
+  function applyProfile(p){
+    profile = p; const d = loadDefaults(); const src = d.enabled ? (p === 'SINGLE' ? d.single : d.formation) : ZERO_DEFAULTS[p === 'SINGLE' ? 'single' : 'formation'];
+    setSelectValueAndPaint(offShowEl, src.show); setSelectValueAndPaint(offBriefEl, src.brief); setSelectValueAndPaint(offStepEl, src.step); setSelectValueAndPaint(offEngEl, src.eng);
+    setActive(singleBtn, p === 'SINGLE'); setActive(formBtn, p === 'FORM');
+  }
+  function applyMode(m){ mode = m; setActive(basicBtn, m==='BASIC'); setActive(augBtn, m==='AUG'); }
+
+  function setValidity(element, isValid) {
+    element.classList.remove('error','ok');
+    if (!element.value || !isValid) element.classList.add('error'); else element.classList.add('ok');
+  }
+
+  function validateInputs() {
+    const toValid  = !!parseHM(toEl.value); const durValid = parseDur(durEl.value) != null;
+    setValidity(toEl, toValid); setValidity(durEl, durValid);
+    calcBtn.classList.remove('ready', 'needs-run'); calcBtn.disabled = true;
+    if (toValid && durValid) {
+      calcBtn.classList.add('ready'); calcBtn.disabled = false;
+      const sig = getCalcSignature();
+      if (lastRunSig && sig !== lastRunSig) calcBtn.classList.add('needs-run'); else calcBtn.classList.remove('needs-run');
+    }
+    return toValid && durValid;
+  }
+
+  [toEl, durEl].forEach(element => {
+    element.addEventListener('input', validateInputs); element.addEventListener('blur', validateInputs);
+    element.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); element.blur(); if (validateInputs()) calc(); } });
+  });
+
+  function updateFdpNotice(landDt, fdpDt) {
+    const notice = tc$('tc-fdpNotice'); if (!notice) return;
+    notice.classList.remove('warn', 'bad'); notice.style.display = 'none'; notice.textContent = '';
+    if (!(landDt instanceof Date) || isNaN(landDt) || !(fdpDt instanceof Date) || isNaN(fdpDt)) return;
+    const landMs = landDt.getTime(), fdpMs = fdpDt.getTime(), THIRTY_MIN = 30 * 60 * 1000;
+    if (landMs >= fdpMs) { notice.textContent = '⚠️ FDP EXCEEDED'; notice.classList.add('bad'); notice.style.display = 'inline-block'; } 
+    else if (landMs >= fdpMs - THIRTY_MIN) { notice.textContent = '⚠️ Approaching FDP'; notice.classList.add('warn'); notice.style.display = 'inline-block'; }
+  }
+
+  function calc(){
+    out.innerHTML='';
+    if (!validateInputs()) { if (!parseHM(toEl.value)) toEl.focus(); else if (parseDur(durEl.value) == null) durEl.focus(); return; }
+    const d = new Date();
+    if(!dateEl.value){ const yyyy=d.getUTCFullYear(), mm=String(d.getUTCMonth()+1).padStart(2,'0'), dd=String(d.getUTCDate()).padStart(2,'0'); dateEl.value = `${yyyy}-${mm}-${dd}`; }
+    const dateStr = dateEl.value, hmTO = parseHM(toEl.value), dur = parseDur(durEl.value);
+    const offDep = Number(tzDepEl.value), offArr = Number(tzArrEl.value);
+    if(!dateStr || !hmTO || dur==null){ out.textContent='Enter date, T/O (24h), duration.'; return; }
+
+    const to = buildUTCDate(dateStr, hmTO); const ld = addMin(to, dur);
+    const show = addMin(to, -Number(offShowEl.value||0)), brief = addMin(to, -Number(offBriefEl.value||0)), step = addMin(to, -Number(offStepEl.value||0)), eng = addMin(to, -Number(offEngEl.value||0));
+    const alert = addMin(show, -60), crewRest = addMin(alert, -12*60), lastBeer = addMin(to, -12*60), lastAmbien = addMin(alert, -6*60);
+    const MOD = (mode==='BASIC') ? {fdp:16*60, cdt:18*60} : {fdp:24*60, cdt:24*60+45};
+    const fdpEnd = addMin(show, MOD.fdp), cdtEnd = addMin(show, MOD.cdt);
+
+    basicBtn.classList.remove('bad'); augBtn.classList.remove('bad');
+    if (ld.getTime() >= fdpEnd.getTime()) { if (mode === 'BASIC') basicBtn.classList.add('bad'); else augBtn.classList.add('bad'); }
+
+    const latestAlert = addMin(alert, 6*60), picExtAlert = addMin(alert, 8*60), reevalORM = addMin(to, 4*60);
+    const train = addMin(show, 12*60), opTac = addMin(show, 14*60), minTurnTO = addMin(ld, 17*60), lateTOCap = addMin(fdpEnd, -dur);
+
+    line('Crew Rest', crewRest, offDep, 'alert−12'); line('Last Beer', lastBeer, offDep, 'T/O−12'); line('Last Ambien', lastAmbien, offDep, 'alert−6');
+    line('Alert', alert, offDep, 'show−1'); line('Show', show, offDep, `T/O−${hmm(Number(offShowEl.value||0))}`);
+    line('Brief', brief, offDep, `T/O−${hmm(Number(offBriefEl.value||0))}`); line('Step', step, offDep, `T/O−${hmm(Number(offStepEl.value||0))}`);
+    line('Eng St', eng, offDep, `T/O−${hmm(Number(offEngEl.value||0))}`); lineDual('T/O', to, offDep, null, tzLabelFromOffset(offDep));
+
+    const durLine = document.createElement('div'); durLine.className='tc-line';
+    const dh = String(Math.floor(dur/60)).padStart(2,'0'), dm = String(dur%60).padStart(2,'0');
+    durLine.innerHTML = `<div class="tc-name">Sortie Dur</div><div class="tc-time">${dh}${dm}</div>`; out.appendChild(durLine);
+
+    lineDual('Land', ld, offArr, null, tzLabelFromOffset(offArr));
+    line('Late T/O Cap', lateTOCap, offDep, 'FDP − Dur'); line('Latest Alert', latestAlert, offDep, 'alert+6');
+    line('PIC Extend Alert', picExtAlert, offDep, 'alert+8'); line('Re-Eval ORM', reevalORM, offDep, 'T/O+4');
+    line('Train', train, offDep, 'show+12'); line('Tactical', opTac, offDep, 'show+14');
+    line('FDP', fdpEnd, offDep, mode==='BASIC'?'show+16':'show+24'); line('CDT', cdtEnd, offDep, mode==='BASIC'?'show+18':'show+24:45');
+    line('Min Turn T/O', minTurnTO, offArr, 'land+17');
+    
+    const pair = (label, dt, off) => { const shortLabel = (label === 'Land') ? 'Lnd' : label; const base = `${shortLabel}: ${fmtLocalWithOffset(dt, off)}L/${fmtZ(dt)}`; if (shortLabel === 'T/O' || shortLabel === 'Lnd') { return `${base} (${fmtZuluDayTag(dt)})`; } return base; };
+    const durHHMM = `${String(Math.floor(dur/60)).padStart(2,'0')}${String(dur%60).padStart(2,'0')}`;
+
+    lastCopyText = [ pair('Crew Rest', crewRest, offDep), pair('Alert', alert, offDep), pair('Show', show, offDep), pair('Brief', brief, offDep), pair('Step', step, offDep), pair('Eng St', eng, offDep), pair('T/O', to, offDep), `Dur: ${durHHMM}`, pair('Land', ld, offArr) ].join('\n');
+    if (copyBtn) copyBtn.disabled = false;
+    updateFdpNotice(ld, fdpEnd);
+    
+    lastRunSig = getCalcSignature();
+    calcBtn.classList.add('ready'); calcBtn.classList.remove('needs-run'); calcBtn.disabled = false;
+  }
+
+  function resetTimeCalc(){
+    const d=new Date(); const yyyy=d.getUTCFullYear(), mm=String(d.getUTCMonth()+1).padStart(2,'0'), dd=String(d.getUTCDate()).padStart(2,'0');
+    dateEl.value=`${yyyy}-${mm}-${dd}`; toEl.value=''; durEl.value='';
+    const off = deviceOffsetHours(); tzDepEl.value=String(off); tzArrEl.value=String(off);
+    applyProfile('SINGLE'); applyMode('BASIC'); out.innerHTML='';
+
+    lastCopyText = '';
+    if (copyBtn) { copyBtn.disabled = true; copyBtn.textContent = 'Copy'; }
+    lastRunSig = ''; calcBtn.classList.remove('needs-run', 'ready'); calcBtn.disabled = true;
+    [toEl, durEl].forEach(element => element.classList.remove('error','ok'));
+    validateInputs();
+    basicBtn.classList.remove('bad','warn'); augBtn.classList.remove('bad','warn');
+    const notice = tc$('tc-fdpNotice'); if (notice) { notice.classList.remove('warn','bad'); notice.style.display = 'none'; notice.textContent = ''; }
+  }
+
+  ['click','touchend'].forEach(ev=>{
+    basicBtn.addEventListener(ev, ()=>{ applyMode('BASIC'); validateInputs(); });
+    augBtn.addEventListener(ev, ()=>{ applyMode('AUG'); validateInputs(); });
+    singleBtn.addEventListener(ev,()=>{ applyProfile('SINGLE'); validateInputs(); });
+    formBtn.addEventListener(ev, ()=>{ applyProfile('FORM'); validateInputs(); });
+    calcBtn.addEventListener(ev, calc);
+    resetBtn.addEventListener(ev, resetTimeCalc);
+  });
+
+  [dateEl, tzDepEl, tzArrEl, offShowEl, offBriefEl, offStepEl, offEngEl].forEach(element => element.addEventListener('change', validateInputs));
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      if (!lastCopyText) return;
+      try { await navigator.clipboard.writeText(lastCopyText); copyBtn.textContent = 'Copied!'; setTimeout(() => (copyBtn.textContent = 'Copy'), 1200); return; } 
+      catch {
+        const ta = document.createElement('textarea'); ta.value = lastCopyText; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); } catch {}
+        document.body.removeChild(ta); copyBtn.textContent = 'Copied!'; setTimeout(() => (copyBtn.textContent = 'Copy'), 1200);
+      }
+    });
+  }
+
+  function buildOffsetOptions(select, def){
+    for(let m=0; m<=360; m+=5){
+      const h=Math.floor(m/60), mm=m%60; const o=document.createElement('option'); o.value=m; o.textContent=`${h}:${String(mm).padStart(2,'0')}`;
+      if(m===def) o.selected=true; select.appendChild(o);
+    }
+  }
+
+  genTZOptions(tzDepEl); genTZOptions(tzArrEl);
+  buildOffsetOptions(offShowEl,150); buildOffsetOptions(offBriefEl,120); buildOffsetOptions(offStepEl,60); buildOffsetOptions(offEngEl,30);
+
+  const off = deviceOffsetHours(); tzDepEl.value = String(off); tzArrEl.value = String(off);
+  resetTimeCalc(); updateNowPanel(); setInterval(updateNowPanel, 30000); validateInputs();
+}
+
+// Start Time Calculator
+initTimeCalc();
 </script>
 </body>
 </html>
