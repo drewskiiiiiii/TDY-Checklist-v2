@@ -6,63 +6,47 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TDY Checklist">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0F1923">
+<link rel="manifest" href="manifest2.json">
+
+<link rel="apple-touch-icon" sizes="180x180" href="./icon.png?v=3">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon.png?v=3">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon.png?v=3">
+<link rel="shortcut icon" href="./icon.png?v=3">
+
+<meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <title>TDY Mission Checklist</title>
 <style>
   :root {
-    --green:        #00C87A;
-    --green-bg:     #003D26;
-    --green-text:   #00FF9A;
-    --amber:        #FFB800;
-    --amber-bg:     #3D2D00;
-    --blue:         #3DA8FF;
-    --blue-bg:      #002040;
-    --coral:        #FF6040;
-    --coral-bg:     #3D1000;
-    --purple:       #C8A0FF;
-    --purple-bg:    #1E0A40;
+    --accent:        #1eb4f0;
+    --accent-dim:    rgba(30, 180, 240, 0.18);
+    --accent-border: rgba(30, 180, 240, 0.45);
+    --accent-glow:   rgba(30, 180, 240, 0.6);
+    --red:           #fa5252;
  
-    --bg:           #000000;
-    --surface:      #111111;
-    --surface2:     #1A1A1A;
-    --border:       #2A2A2A;
-    --border-bright:#404040;
-    --text:         #F0F4F8;
-    --muted:        #8AAABB;
-    --done-text:    #4A6070;
+    --bg:          #000000;
+    --surface:     #101010;
+    --surface2:    #1a1a1a;
+    --border:      #2a2a2a;
+    --border-hi:   #3a3a3a;
+    --text:        #f0f0f0;
+    --muted:       #888888;
+    --done-text:   #444444;
  
-    --radius:    10px;
-    --radius-sm:  6px;
-    --font-size-item: 16px;
-    --font-size-label: 13px;
+    --radius: 10px;
+    --radius-sm: 6px;
   }
- 
-  /* Optional light mode override — still high contrast */
-  @media (prefers-color-scheme: light) {
-    :root {
-      --green:        #007A45;
-      --green-bg:     #C8F0DC;
-      --green-text:   #004D28;
-      --amber:        #8A5A00;
-      --amber-bg:     #FFF0C0;
-      --blue:         #0050A0;
-      --blue-bg:      #C8DFFF;
-      --coral:        #8A2800;
-      --coral-bg:     #FFD5C8;
-      --purple:       #5028B0;
-      --purple-bg:    #E0D5FF;
- 
-      --bg:           #D8E0E8;
-      --surface:      #FFFFFF;
-      --surface2:     #EDF2F7;
-      --border:       #8AAABB;
-      --border-bright:#4A7090;
-      --text:         #080E14;
-      --muted:        #2A4055;
-      --done-text:    #8AAABB;
-    }
+  
+  /* ── LIGHT MODE VARIABLES ──────────────────────── */
+  body.light-mode {
+    --bg:          #ffffff;
+    --surface:     #ffffff;
+    --surface2:    #f4f5f7;
+    --border:      #000000; /* Solid black boxes around items */
+    --border-hi:   #000000; /* Solid black borders for inputs/checkboxes */
+    --text:        #000000; /* High contrast black text */
+    --muted:       #555555;
+    --done-text:   #888888;
   }
  
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -71,69 +55,163 @@
     background: var(--bg);
     color: var(--text);
     font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif;
-    font-size: var(--font-size-item);
     min-height: 100vh;
-    padding-bottom: 96px;
+    padding-bottom: 90px;
+    transition: background-color 0.2s, color 0.2s;
   }
  
-  /* ── HEADER ─────────────────────────────────────────── */
+  /* ── HEADER ─────────────────────────────────────── */
   .header {
     background: var(--surface);
-    border-bottom: 2px solid var(--border-bright);
+    border-bottom: 1.5px solid var(--accent-border);
     padding: 14px 16px 12px;
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background-color 0.2s, border-color 0.2s;
   }
   .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: flex-start; justify-content: space-between;
     margin-bottom: 10px;
   }
+  .header-title-wrap {
+    display: flex; flex-direction: column; gap: 6px;
+  }
   .header h1 {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    color: var(--text);
-    text-transform: uppercase;
+    font-size: 21px; font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--accent);
+    line-height: 1.1;
+    width: fit-content;
   }
-  .reset-btn {
-    background: var(--surface2);
-    border: 1.5px solid var(--border-bright);
+  .header-sub-row {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cao-box {
+    display: inline-block;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.8px; text-transform: uppercase;
     color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 5px 12px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-family: inherit;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+    background: var(--surface2);
+    border: 1px solid var(--border-hi);
+    padding: 2px 6px; border-radius: 4px;
+    width: fit-content;
+    transition: all 0.2s;
   }
-  .reset-btn:active { opacity: 0.6; }
+  
+  /* ── THEME & BACKGROUND PICKER ───────────────────── */
+  .theme-picker {
+    display: flex; gap: 6px; align-items: center;
+  }
+  
+  .color-picker-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.15s;
+  }
+  .color-picker-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  .color-picker-input::-webkit-color-swatch {
+    border: 1.5px solid var(--border-hi);
+    border-radius: 50%;
+  }
+  .color-picker-input::-moz-color-swatch {
+    border: 1.5px solid var(--border-hi);
+    border-radius: 50%;
+  }
+  .color-picker-input:active { transform: scale(0.9); }
+
+  .theme-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    cursor: pointer; border: 1.5px solid transparent;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .theme-dot.active { border-color: var(--text); transform: scale(1.15); }
+  
+  .theme-sep { width: 1px; height: 16px; background: var(--border-hi); margin: 0 4px; }
+  .bg-dot { border: 1.5px solid var(--border-hi); width: 18px; height: 18px; }
+  
+  .reset-btn {
+    background: none;
+    border: 1px solid var(--border-hi);
+    color: var(--muted);
+    font-size: 12px; font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer; font-family: inherit;
+    text-transform: uppercase; letter-spacing: 0.4px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .reset-btn:active { opacity: 0.5; }
  
-  /* ── SEARCH ─────────────────────────────────────────── */
+  /* ── EDIT MODE UI ────────────────────────────────── */
+  .delete-btn {
+    display: none;
+    background: none; border: none;
+    color: var(--red); font-size: 14px; font-weight: bold;
+    cursor: pointer; padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: auto;
+  }
+  .delete-btn:active { opacity: 0.5; }
+  
+  .add-btn {
+    display: none;
+    background: var(--surface2); border: 1px dashed var(--border-hi);
+    color: var(--muted); font-size: 12px; font-weight: 600;
+    cursor: pointer; padding: 6px 12px;
+    border-radius: var(--radius-sm); width: 100%; margin-top: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  
+  /* When Edit Mode is Active */
+  body.edit-mode .delete-btn { display: inline-block; }
+  body.edit-mode .add-btn { display: block; }
+  
+  body.edit-mode .editable-text {
+    pointer-events: auto;
+    border-bottom: 1px dashed var(--border-hi);
+  }
+  body.edit-mode .editable-text:hover, 
+  body.edit-mode .editable-text:focus {
+    border-bottom-color: var(--accent);
+  }
+  body.edit-mode .tab.active .editable-text { border-bottom-color: var(--accent); }
+  
+  /* Disable normal clicking in edit mode to prioritize editing */
+  body.edit-mode .check-item .checkbox,
+  body.edit-mode .check-item .item-notes { pointer-events: none; opacity: 0.3; }
+
+  /* ── SEARCH ──────────────────────────────────────── */
   .search-wrap { position: relative; margin-bottom: 10px; }
   .search-icon {
     position: absolute; left: 11px; top: 50%;
     transform: translateY(-50%);
-    width: 17px; height: 17px;
+    width: 16px; height: 16px;
     color: var(--muted); pointer-events: none;
   }
   .search-input {
     width: 100%;
     padding: 9px 34px 9px 36px;
-    border: 1.5px solid var(--border-bright);
+    border: 1px solid var(--border-hi);
     border-radius: var(--radius-sm);
     background: var(--surface2);
     color: var(--text);
-    font-size: 16px;
-    font-family: inherit;
+    font-size: 16px; font-family: inherit;
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, background-color 0.2s, color 0.2s;
   }
-  .search-input:focus { border-color: var(--green); }
+  .search-input:focus { border-color: var(--accent); }
   .search-input::placeholder { color: var(--muted); }
   .search-clear {
     position: absolute; right: 9px; top: 50%;
@@ -147,117 +225,111 @@
   .search-clear.visible { opacity: 1; pointer-events: auto; }
   .search-clear svg { width: 10px; height: 10px; color: white; }
  
-  /* ── PROGRESS ───────────────────────────────────────── */
+  /* ── PROGRESS ────────────────────────────────────── */
   .progress-stats {
     display: flex; justify-content: space-between;
-    font-size: var(--font-size-label);
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 5px;
+    font-size: 12px; font-weight: 600;
+    color: var(--muted); margin-bottom: 5px;
   }
-  .progress-track {
-    background: var(--border);
-    border-radius: 4px; height: 6px; overflow: hidden;
-  }
+  .progress-track { background: var(--border); border-radius: 4px; height: 5px; overflow: hidden; transition: background-color 0.2s; }
   .progress-fill {
-    height: 100%; background: var(--green);
-    border-radius: 4px;
-    transition: width 0.35s cubic-bezier(.4,0,.2,1);
+    height: 100%; background: var(--accent); border-radius: 4px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1), background-color 0.3s;
+    box-shadow: 0 0 8px var(--accent-glow);
   }
  
-  /* ── SEARCH RESULTS LABEL ───────────────────────────── */
+  /* ── SEARCH LABEL / NO RESULTS ───────────────────── */
   .search-results-label {
-    display: none;
-    font-size: 13px; font-weight: 600;
-    color: var(--muted);
-    padding: 8px 16px 0;
+    display: none; font-size: 12px; font-weight: 600;
+    color: var(--muted); padding: 8px 16px 0;
   }
   .search-results-label.visible { display: block; }
   .no-results {
-    display: none;
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-    font-size: 16px;
+    display: none; text-align: center;
+    padding: 40px 20px; color: var(--muted); font-size: 15px;
   }
   .no-results.visible { display: block; }
  
-  /* ── TABS ───────────────────────────────────────────── */
+  /* ── TABS ────────────────────────────────────────── */
   .tabs {
-    display: flex; overflow-x: auto; gap: 6px;
+    display: flex; overflow-x: auto; gap: 7px;
     padding: 10px 16px 0;
     scrollbar-width: none;
     background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.2s, border-color 0.2s;
   }
   .tabs::-webkit-scrollbar { display: none; }
   .tabs.search-active { display: none; }
   .tab {
     flex-shrink: 0;
-    border: 1.5px solid var(--border-bright);
+    border: 1px solid var(--border-hi);
     background: var(--surface2);
     color: var(--muted);
-    font-size: 13px; font-weight: 700;
-    padding: 7px 13px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-family: inherit;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 13px; font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 20px;
+    cursor: pointer; font-family: inherit;
     transition: all 0.12s;
     white-space: nowrap;
-    display: flex; align-items: center; gap: 7px;
+    display: flex; align-items: center; gap: 6px;
   }
   .tab-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--border-bright);
-    transition: background 0.2s;
-    flex-shrink: 0;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--border-hi); transition: background 0.2s; flex-shrink: 0;
   }
   .tab.active {
-    border-color: var(--green);
-    background: var(--green-bg);
-    color: var(--green-text);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    color: var(--accent);
   }
-  .tab.active .tab-dot { background: var(--green); }
-  .tab:active { transform: scale(0.96); }
- 
-  /* ── SECTION ────────────────────────────────────────── */
+  .tab.active .tab-dot { background: var(--accent); }
+  
+  /* ── SECTION ─────────────────────────────────────── */
   .section { display: none; padding: 12px 16px 0; }
   .section.active { display: block; }
+  .section.search-active { display: block !important; }
  
-  /* Section color-band label (search mode) */
   .section-search-label {
     display: none;
     font-size: 11px; font-weight: 800;
     letter-spacing: 1px; text-transform: uppercase;
-    padding: 3px 10px; border-radius: 4px;
+    color: var(--accent); border: 1px solid var(--accent-border);
+    padding: 2px 10px; border-radius: 4px;
     margin-bottom: 6px; width: fit-content;
-    background: var(--green-bg); color: var(--green-text);
   }
-  .section.search-active { display: block !important; }
   .section.search-active .section-search-label { display: inline-block; }
  
-  /* ── GROUP HEADER ───────────────────────────────────── */
+  /* ── GROUP HEADER ────────────────────────────────── */
   .group-header {
-    font-size: 12px; font-weight: 800;
+    font-size: 11px; font-weight: 700;
     letter-spacing: 1px; text-transform: uppercase;
     color: var(--muted);
     padding: 14px 0 6px;
     display: flex; align-items: center; gap: 10px;
-    border-bottom: 1.5px solid var(--border);
-    margin-bottom: 4px;
   }
+  .group-header::after { content: ''; flex: 1; height: 1px; background: var(--border); transition: background-color 0.2s; }
   .group-header.search-hidden { display: none !important; }
  
-  /* ── CHECKLIST ──────────────────────────────────────── */
+  /* ── EDITABLE TEXT ───────────────────────────────── */
+  .editable-text {
+    outline: none;
+    border-bottom: 1px dashed transparent;
+    transition: border-bottom-color 0.2s, color 0.2s;
+    cursor: text;
+    padding-bottom: 1px;
+    pointer-events: none; /* Disabled unless in edit mode */
+  }
+ 
+  /* ── CHECKLIST ───────────────────────────────────── */
   .checklist { display: flex; flex-direction: column; gap: 3px; }
   .check-item.search-hidden { display: none !important; }
  
   .check-item {
-    display: flex; align-items: center; gap: 14px;
+    display: flex; align-items: center; gap: 13px;
     background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-left: 4px solid var(--border-bright);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-border);
     border-radius: var(--radius-sm);
     padding: 13px 14px;
     cursor: pointer;
@@ -266,92 +338,92 @@
     min-height: 52px;
   }
   .check-item:active { background: var(--surface2); }
- 
-  /* Color accent on left border by section color */
-  .accent-plan  { border-left-color: var(--blue); }
-  .accent-ops   { border-left-color: var(--purple); }
-  .accent-crit  { border-left-color: var(--coral); }
-  .accent-pack  { border-left-color: var(--amber); }
- 
   .check-item.done {
-    background: var(--surface2);
-    border-color: var(--border);
     border-left-color: var(--border);
+    opacity: 0.45;
   }
   .check-item.done .item-label {
     text-decoration: line-through;
     color: var(--done-text);
   }
+  
+  /* Disable strikethrough in edit mode so text is clear */
+  body.edit-mode .check-item.done .item-label { text-decoration: none; color: var(--text); }
  
-  /* ── CHECKBOX ───────────────────────────────────────── */
+  /* ── CHECKBOX ────────────────────────────────────── */
   .checkbox {
-    width: 26px; height: 26px; flex-shrink: 0;
-    border: 2px solid var(--border-bright);
-    border-radius: 5px;
+    width: 24px; height: 24px; flex-shrink: 0;
+    border: 1.5px solid var(--border-hi);
+    border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.15s;
     background: var(--surface2);
   }
   .check-item.done .checkbox {
-    background: var(--green);
-    border-color: var(--green);
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
   }
-  .checkmark { display: none; width: 13px; height: 10px; }
+  .checkmark { display: none; width: 11px; height: 8px; }
   .checkmark path { stroke: #000; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .check-item.done .checkmark { display: block; }
  
-  /* ── ITEM TEXT ──────────────────────────────────────── */
+  /* ── ITEM TEXT ───────────────────────────────────── */
   .item-content { flex: 1; display: flex; flex-direction: column; gap: 7px; }
-  .item-label {
-    font-size: var(--font-size-item);
-    font-weight: 600;
-    line-height: 1.35;
-    color: var(--text);
-  }
+  .item-label { font-size: 16px; font-weight: 500; line-height: 1.35; color: var(--text); transition: color 0.2s; }
  
-  /* ── NOTES ──────────────────────────────────────────── */
+  /* ── NOTES ───────────────────────────────────────── */
   .item-notes {
     font-size: 14px;
     padding: 7px 10px;
-    border: 1.5px solid var(--border-bright);
+    border: 1px solid var(--border-hi);
     border-radius: var(--radius-sm);
     background: var(--surface2);
     color: var(--text);
-    font-family: inherit;
-    width: 100%; outline: none;
-    transition: border-color 0.15s;
+    font-family: inherit; 
+    width: 100%; 
+    outline: none;
+    transition: border-color 0.15s, background-color 0.2s, color 0.2s;
+    resize: none; /* Prevents manual drag resizing */
+    overflow: hidden; /* Hides internal scrollbar for auto-grow */
+    line-height: 1.4;
   }
-  .item-notes:focus { border-color: var(--green); }
+  .item-notes:focus { border-color: var(--accent); }
   .item-notes::placeholder { color: var(--muted); }
-  .check-item.done .item-notes { opacity: 0.5; }
+  .check-item.done .item-notes { opacity: 0.4; }
  
-  /* ── SEARCH HIGHLIGHT ───────────────────────────────── */
-  .search-highlight {
-    background: var(--amber);
-    color: #000;
-    border-radius: 2px;
-    padding: 0 1px;
-  }
- 
-  /* ── BOTTOM SUMMARY ─────────────────────────────────── */
+  /* ── BOTTOM SUMMARY ──────────────────────────────── */
   .phase-summary {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--surface);
-    border-top: 2px solid var(--border-bright);
+    border-top: 1.5px solid var(--accent-border);
     padding: 10px 20px 26px;
-    display: flex; justify-content: space-around;
+    display: flex; justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s, border-color 0.2s;
   }
-  .phase-stat { text-align: center; }
-  .phase-stat .ps-num {
-    font-size: 22px; font-weight: 800;
-    letter-spacing: -0.5px;
-  }
+  .phase-stat { text-align: left; }
+  .phase-stat .ps-num { font-size: 22px; font-weight: 800; color: var(--accent); }
   .phase-stat .ps-label {
-    font-size: 11px; font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-top: 2px;
+    font-size: 10px; font-weight: 700;
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.8px; margin-top: 2px;
+  }
+  
+  .edit-toggle-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border-hi);
+    color: var(--text);
+    font-size: 13px; font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer; font-family: inherit;
+    transition: all 0.2s;
+  }
+  .edit-toggle-btn.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-color: var(--accent);
   }
 </style>
 </head>
@@ -359,7 +431,20 @@
  
 <div class="header">
   <div class="header-top">
-    <h1>TDY Checklist</h1>
+    <div class="header-title-wrap">
+      <h1 class="editable-text" contenteditable="true" spellcheck="false" id="main-title">KC-135 TDY Checklist</h1>
+      <div class="header-sub-row">
+        <div class="cao-box">CAO: <span id="cao-date"></span></div>
+        <div class="theme-picker" id="theme-picker">
+          <input type="color" id="custom-color-picker" class="color-picker-input" value="#1eb4f0" title="Choose Accent Color">
+          
+          <div class="theme-sep"></div>
+          
+          <div class="theme-dot bg-dot" style="background: #000000;" data-bg="dark" onclick="setBgMode('dark')"></div>
+          <div class="theme-dot bg-dot" style="background: #ffffff;" data-bg="light" onclick="setBgMode('light')"></div>
+        </div>
+      </div>
+    </div>
     <button class="reset-btn" onclick="resetAll()">Reset</button>
   </div>
   <div class="search-wrap">
@@ -387,12 +472,21 @@
 <div class="no-results" id="no-results">No items match your search.</div>
  
 <div id="sections-wrap"></div>
-<div class="phase-summary" id="phase-summary"></div>
+
+<div class="phase-summary">
+  <div class="phase-stat" id="phase-summary-stats"></div>
+  <button class="edit-toggle-btn" id="edit-mode-btn" onclick="toggleEditMode()">Edit Checklist</button>
+</div>
  
 <script>
-const SECTIONS = [
+// Auto-update CAO to the last modified date of the document
+const lastModDate = new Date(document.lastModified);
+const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+document.getElementById('cao-date').textContent = lastModDate.toLocaleDateString('en-US', dateOptions).toUpperCase();
+
+const DEFAULT_SECTIONS = [
   {
-    id: 'mission-planning', label: 'Mission Planning', color: 'plan',
+    id: 'mission-planning', label: 'Mission Planning',
     groups: [
       { title: 'Mission Docs', items: [
         'G2 Mission Setup Sheet (Remarks)', '1801, Form 200', 'WX, NOTAMs, TOLD',
@@ -405,7 +499,7 @@ const SECTIONS = [
       { title: 'Considerations', items: [
         'Emergency Airfields reviewed', 'Operating / Quiet Hours checked',
         'Gross Weight calculated', 'Aircraft Configuration confirmed', 'Aircraft Lockbox (2 Seperate for Guns + Secrets)',
-        'GSA Locks for each lockbox', 'CDT / FDP reviewed (202v3 AMCSUP Ch 3)', 'Ground Times / Crew Rest planned',
+        'GSA Locks for each box', 'CDT / FDP reviewed (202v3 AMCSUP Ch 3)', 'Ground Times / Crew Rest planned',
       ]},
       { title: 'Overseas / OCONUS', items: [
         'AE Information reviewed', 'Local IFG / Arrival Guide printed',
@@ -429,7 +523,7 @@ const SECTIONS = [
     ]
   },
   {
-    id: 'pre-departure', label: 'Pre-Departure', color: 'ops',
+    id: 'pre-departure', label: 'Pre-Departure',
     groups: [
       { title: 'Crew Actions', items: [
         'TDY Group Text established', 'Crew Brief Time established',
@@ -439,13 +533,10 @@ const SECTIONS = [
         'POV Long-term Parking arranged', 'U-Drive / Rental Car reserved',
         'Destination WX checked', 'Flight Meals / Water arranged',
       ]},
-      { title: 'Friends & Contacts', items: [
-        'Friends / Contacts at Destination noted', 'Rally Plan established', 'Haircut',
-      ]},
     ]
   },
   {
-    id: 'day-of-flight', label: 'Day of Flight', color: 'crit',
+    id: 'day-of-flight', label: 'Day of Flight',
     groups: [
       { title: 'Pre-Flight Checks', items: [
         'Review / Initial Flight Authorizations', 'Make copies of FAs',
@@ -468,7 +559,7 @@ const SECTIONS = [
     ]
   },
   {
-    id: 'destination', label: 'Destination', color: 'ops',
+    id: 'destination', label: 'Destination',
     groups: [
       { title: 'On Arrival', items: [
         'Contact TACC / C2 → LFA', 'Landing Fuel confirmed',
@@ -482,7 +573,7 @@ const SECTIONS = [
     ]
   },
   {
-    id: 'next-leg', label: 'Next Leg', color: 'plan',
+    id: 'next-leg', label: 'Next Leg',
     groups: [
       { title: 'Rerun TDY Checklist', items: [
         'Rerun TDY Checklist (if req)', 'Hotel Receipt (Taxes?) obtained',
@@ -492,7 +583,7 @@ const SECTIONS = [
     ]
   },
   {
-    id: 'rtb', label: 'RTB', color: 'plan',
+    id: 'rtb', label: 'RTB',
     groups: [
       { title: 'Return Actions', items: [
         'Download Cargo / Pax', 'MX Debrief completed',
@@ -502,64 +593,104 @@ const SECTIONS = [
       ]},
     ]
   },
-  {
-    id: 'packing', label: 'Packing', color: 'pack',
-    groups: [
-      { title: 'Military Items', items: [
-        'Uniforms (2–3x)', 'Boots', 'Belt', 'Cap', 'Socks — MIL (3–4x)',
-        'Shirts (3–4x)', 'OCP Jacket', 'GTC card', 'Pro Gear',
-        'Restricted Area Badge (RAB)', 'MOB Folder (WW)', 'Flightline DL',
-        'Mil Concealed Carry License (523)', 'Laptop + Charger',
-      ]},
-      { title: 'Personal Items', items: [
-        'GOV Passport', 'MOB Folders (WW)', 'Immunization Records',
-        'Foreign Currency (notify bank)', 'In-flight CL, EFB + Charger',
-      ]},
-      { title: 'Civilian Clothes', items: [
-        'Dress Clothes (2–3x)', 'Underwear (4–5x)', 'Socks — CIV (4–5x)',
-        'Workout Clothes (3–4x)', 'Workout Towels (2–3x)',
-        'Shoes (workout, casual, dress)', 'Swim Suit', 'Jacket / Coat',
-        'Speaker', 'Cell Phone Charger', 'OFF / Sunblock', 'Plastic Bags',
-        'Headphones', 'Toiletries', 'Neck Pillow', 'Playing Cards',
-      ]},
-      { title: 'Cold Weather', items: [
-        'LRS B Bag', 'Beanie', 'Gloves', 'Winter Socks (3–4x)',
-        'Thermal Underwear', 'Sweats',
-      ]},
-    ]
-  },
-  {
-    id: 'grocery', label: 'Grocery', color: 'pack',
-    groups: [
-      { title: 'Check Lodging Amenities', items: ['Lodging has fridge & microwave confirmed'] },
-      { title: 'Produce', items: [
-        'Salad Mix', 'Carrots', 'Bananas', 'Apples', 'Oranges',
-        'Blueberries / Strawberries', 'Avocado',
-      ]},
-      { title: 'Protein', items: ['Sandwich Meat', 'Eggs', 'Hummus'] },
-      { title: 'Snacks & Pantry', items: [
-        'Salsa', 'Chips', 'Bread', 'Peanut Butter', 'Oatmeal / Granola',
-        'Protein Bars', 'Paper Plates', 'Sandwich Bags', 'Microwave Rice',
-        'Jam / Jelly', 'Rice Cakes',
-      ]},
-      { title: 'Dairy & Drinks', items: [
-        'Whole Milk', 'Freezer Meals', 'Sandwich Cheese',
-        'Sandwich Condiments', 'Greek Yogurt',
-      ]},
-    ]
-  },
 ];
+
+// ── COLOR CONVERTER & THEME APPLY ────────────────────────────────────────────
+function hexToRgb(hex) {
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, function(m, r, g, b) { return r + r + g + g + b + b; });
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
+}
+
+function applyCustomColor(hex) {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return;
+  const { r, g, b } = rgb;
+  
+  document.documentElement.style.setProperty('--accent', hex);
+  document.documentElement.style.setProperty('--accent-dim', `rgba(${r}, ${g}, ${b}, 0.18)`);
+  document.documentElement.style.setProperty('--accent-border', `rgba(${r}, ${g}, ${b}, 0.45)`);
+  document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.6)`);
+  
+  localStorage.setItem('tdy2_theme_color', hex);
+  
+  // Sync the picker value
+  const picker = document.getElementById('custom-color-picker');
+  if (picker && picker.value !== hex) picker.value = hex;
+}
+
+// Attach listener to the color picker
+document.getElementById('custom-color-picker').addEventListener('input', (e) => {
+  applyCustomColor(e.target.value);
+});
+
+function setBgMode(mode) {
+  if (mode === 'light') {
+    document.body.classList.add('light-mode');
+  } else {
+    document.body.classList.remove('light-mode');
+  }
+  localStorage.setItem('tdy2_bg', mode);
+  
+  document.querySelectorAll('.bg-dot').forEach(el => el.classList.remove('active'));
+  const activeDot = document.querySelector(`.bg-dot[data-bg="${mode}"]`);
+  if(activeDot) activeDot.classList.add('active');
+}
  
-let state = {}, notes = {};
+let state = {}, notes = {}, SECTIONS = [];
+let activeTabId = null;
+let isEditMode = false;
  
 function loadState() {
-  try { state = JSON.parse(localStorage.getItem('tdy_state') || '{}'); } catch(e) { state = {}; }
-  try { notes = JSON.parse(localStorage.getItem('tdy_notes') || '{}'); } catch(e) { notes = {}; }
+  try { state = JSON.parse(localStorage.getItem('tdy2_state') || '{}'); } catch(e) { state = {}; }
+  try { notes = JSON.parse(localStorage.getItem('tdy2_notes') || '{}'); } catch(e) { notes = {}; }
+  try { 
+    const savedSec = localStorage.getItem('tdy2_sections');
+    SECTIONS = savedSec ? JSON.parse(savedSec) : JSON.parse(JSON.stringify(DEFAULT_SECTIONS)); 
+  } catch(e) { SECTIONS = JSON.parse(JSON.stringify(DEFAULT_SECTIONS)); }
+  
+  const savedTitle = localStorage.getItem('tdy2_title');
+  if (savedTitle) document.getElementById('main-title').textContent = savedTitle;
+
+  const savedColor = localStorage.getItem('tdy2_theme_color') || '#1eb4f0';
+  applyCustomColor(savedColor);
+  
+  const savedBg = localStorage.getItem('tdy2_bg') || 'dark';
+  setBgMode(savedBg);
 }
 function saveState() {
-  localStorage.setItem('tdy_state', JSON.stringify(state));
-  localStorage.setItem('tdy_notes', JSON.stringify(notes));
+  localStorage.setItem('tdy2_state', JSON.stringify(state));
+  localStorage.setItem('tdy2_notes', JSON.stringify(notes));
 }
+function saveSections() {
+  localStorage.setItem('tdy2_sections', JSON.stringify(SECTIONS));
+}
+
+function toggleEditMode() {
+  isEditMode = !isEditMode;
+  document.body.classList.toggle('edit-mode', isEditMode);
+  const btn = document.getElementById('edit-mode-btn');
+  btn.textContent = isEditMode ? 'Done Editing' : 'Edit Checklist';
+  btn.classList.toggle('active', isEditMode);
+}
+
+// Editable Title Initialization
+const titleEl = document.getElementById('main-title');
+titleEl.addEventListener('blur', e => {
+   const newTitle = e.target.textContent.trim();
+   if (newTitle) {
+       localStorage.setItem('tdy2_title', newTitle);
+   } else {
+       e.target.textContent = 'KC-135 TDY Checklist';
+       localStorage.removeItem('tdy2_title');
+   }
+});
+titleEl.addEventListener('keydown', e => {
+   if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+});
+
 function itemKey(sId, gTitle, item) { return `${sId}||${gTitle}||${item}`; }
 function getAllKeys() {
   const k = [];
@@ -574,21 +705,9 @@ function updateProgress() {
   document.getElementById('prog-pct').textContent = pct + '%';
   document.getElementById('prog-fill').style.width = pct + '%';
  
-  const planKeys = [];
-  SECTIONS.forEach(s => s.groups.forEach(g => g.items.forEach(i => {
-    if (['plan','ops','crit'].includes(s.color)) planKeys.push(itemKey(s.id, g.title, i));
-  })));
-  const planDone = planKeys.filter(k => state[k]).length;
- 
-  document.getElementById('phase-summary').innerHTML = `
-    <div class="phase-stat">
-      <div class="ps-num" style="color:var(--blue)">${planDone}/${planKeys.length}</div>
-      <div class="ps-label">Ops Tasks</div>
-    </div>
-    <div class="phase-stat">
-      <div class="ps-num" style="color:var(--green)">${done}/${all.length}</div>
+  document.getElementById('phase-summary-stats').innerHTML = `
+      <div class="ps-num">${done}/${all.length}</div>
       <div class="ps-label">Total Done</div>
-    </div>
   `;
  
   SECTIONS.forEach(s => {
@@ -596,31 +715,75 @@ function updateProgress() {
     s.groups.forEach(g => g.items.forEach(i => sKeys.push(itemKey(s.id, g.title, i))));
     const sDone = sKeys.filter(k => state[k]).length;
     const dot = document.querySelector(`[data-tab="${s.id}"] .tab-dot`);
-    if (dot) dot.style.background = (sDone === sKeys.length && sKeys.length > 0) ? 'var(--green)' : '';
+    if (dot) dot.style.background = (sDone === sKeys.length && sKeys.length > 0) ? 'var(--accent)' : '';
   });
 }
  
 function toggleItem(key, el) {
-  state[key] = !state[key];
-  saveState();
+  if (isEditMode) return; // Prevent checking off items while in edit mode
+  state[key] = !state[key]; saveState();
   el.classList.toggle('done', state[key]);
   updateProgress();
 }
  
 function resetAll() {
-  if (!confirm('Reset all items and clear notes?')) return;
-  state = {}; notes = {}; saveState();
-  document.querySelectorAll('.check-item.done').forEach(el => el.classList.remove('done'));
-  document.querySelectorAll('.item-notes').forEach(el => el.value = '');
-  updateProgress();
+  if (!confirm('Reset all checked items and clear notes?')) return;
+  state = {}; 
+  notes = {}; 
+  saveState();
+  build();
 }
  
 function switchTab(id) {
+  activeTabId = id;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
   document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.dataset.section === id));
 }
+
+// ── DELETE ACTIONS ─────────────────────────────────────────────────────────
+function deleteSection(sIndex) {
+  if (!confirm(`Delete entire section "${SECTIONS[sIndex].label}"?`)) return;
+  SECTIONS.splice(sIndex, 1);
+  if (SECTIONS.length > 0) activeTabId = SECTIONS[0].id;
+  saveSections(); build();
+}
+
+function deleteGroup(sIndex, gIndex) {
+  if (!confirm(`Delete category "${SECTIONS[sIndex].groups[gIndex].title}"?`)) return;
+  SECTIONS[sIndex].groups.splice(gIndex, 1);
+  saveSections(); build();
+}
+
+function deleteItem(sIndex, gIndex, iIndex) {
+  SECTIONS[sIndex].groups[gIndex].items.splice(iIndex, 1);
+  saveSections(); build();
+}
+
+// ── ADD ACTIONS ────────────────────────────────────────────────────────────
+function addSection() {
+  const name = prompt('New Section Name:');
+  if (!name) return;
+  const id = name.toLowerCase().replace(/\s+/g, '-');
+  SECTIONS.push({ id, label: name, groups: [] });
+  activeTabId = id;
+  saveSections(); build();
+}
+
+function addGroup(sIndex) {
+  const name = prompt('New Category Name:');
+  if (!name) return;
+  SECTIONS[sIndex].groups.push({ title: name, items: [] });
+  saveSections(); build();
+}
+
+function addItem(sIndex, gIndex) {
+  const name = prompt('New Item Name:');
+  if (!name) return;
+  SECTIONS[sIndex].groups[gIndex].items.push(name);
+  saveSections(); build();
+}
  
-// ── SEARCH ──────────────────────────────────────────────────────────────
+// ── SEARCH ──────────────────────────────────────────────────────────────────
 function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 function highlight(text, q) {
   return text.replace(new RegExp(`(${escRe(q)})`, 'gi'), '<mark class="search-highlight">$1</mark>');
@@ -640,8 +803,7 @@ function runSearch(query) {
     label.classList.remove('visible');
     noRes.classList.remove('visible');
     document.querySelectorAll('.section').forEach(s => {
-      s.classList.remove('search-active');
-      s.style.display = '';
+      s.classList.remove('search-active'); s.style.display = '';
     });
     document.querySelectorAll('.check-item').forEach(el => {
       el.classList.remove('search-hidden');
@@ -649,15 +811,13 @@ function runSearch(query) {
       if (lbl && lbl.dataset.original) lbl.innerHTML = lbl.dataset.original;
     });
     document.querySelectorAll('.group-header').forEach(el => el.classList.remove('search-hidden'));
-    const active = document.querySelector('.tab.active');
-    switchTab(active ? active.dataset.tab : SECTIONS[0].id);
+    switchTab(activeTabId || (SECTIONS.length ? SECTIONS[0].id : null));
     return;
   }
  
   tabsNav.classList.add('search-active');
   document.querySelectorAll('.section').forEach(s => {
-    s.classList.remove('active');
-    s.classList.add('search-active');
+    s.classList.remove('active'); s.classList.add('search-active');
   });
  
   let total = 0;
@@ -699,22 +859,61 @@ function initSearch() {
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); });
 }
  
-// ── BUILD ────────────────────────────────────────────────────────────────
+// ── BUILD ────────────────────────────────────────────────────────────────────
 function build() {
   loadState();
   const tabsNav = document.getElementById('tabs-nav');
   const wrap    = document.getElementById('sections-wrap');
- 
-  SECTIONS.forEach((s, si) => {
-    const tab = document.createElement('button');
-    tab.className = 'tab' + (si === 0 ? ' active' : '');
+  
+  tabsNav.innerHTML = '';
+  wrap.innerHTML = '';
+  
+  if (!activeTabId && SECTIONS.length > 0) activeTabId = SECTIONS[0].id;
+
+  SECTIONS.forEach((s, sIndex) => {
+    const tab = document.createElement('div');
+    tab.className = 'tab' + (s.id === activeTabId ? ' active' : '');
     tab.dataset.tab = s.id;
-    tab.innerHTML = `<span class="tab-dot"></span>${s.label}`;
-    tab.addEventListener('click', () => switchTab(s.id));
+    tab.innerHTML = `<span class="tab-dot"></span>`;
+    
+    // Editable Section Name
+    const tabText = document.createElement('span');
+    tabText.className = 'editable-text';
+    tabText.contentEditable = true;
+    tabText.spellcheck = false;
+    tabText.textContent = s.label;
+    
+    tabText.addEventListener('blur', (e) => {
+      const newLabel = e.target.textContent.trim();
+      if (newLabel && newLabel !== s.label) {
+        s.label = newLabel;
+        saveSections();
+        const secLbl = document.querySelector(`.section[data-section="${s.id}"] .section-search-label`);
+        if (secLbl) secLbl.textContent = newLabel;
+      } else {
+        e.target.textContent = s.label; 
+      }
+    });
+    tabText.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+    });
+
+    const delSecBtn = document.createElement('button');
+    delSecBtn.className = 'delete-btn';
+    delSecBtn.innerHTML = '✖';
+    delSecBtn.onclick = (e) => { e.stopPropagation(); deleteSection(sIndex); };
+
+    tab.appendChild(tabText);
+    tab.appendChild(delSecBtn);
+    
+    tab.addEventListener('click', (e) => {
+      if (e.target !== tabText && e.target !== delSecBtn) switchTab(s.id);
+    });
+    tabText.addEventListener('focus', () => switchTab(s.id));
     tabsNav.appendChild(tab);
  
     const section = document.createElement('div');
-    section.className = 'section' + (si === 0 ? ' active' : '');
+    section.className = 'section' + (s.id === activeTabId ? ' active' : '');
     section.dataset.section = s.id;
  
     const secLbl = document.createElement('div');
@@ -722,65 +921,163 @@ function build() {
     secLbl.textContent = s.label;
     section.appendChild(secLbl);
  
-    s.groups.forEach(g => {
+    s.groups.forEach((g, gIndex) => {
       const gh = document.createElement('div');
       gh.className = 'group-header';
-      gh.textContent = g.title;
       gh.dataset.group = `${s.id}||${g.title}`;
+      
+      // Editable Group Title
+      const ghText = document.createElement('span');
+      ghText.className = 'editable-text';
+      ghText.contentEditable = true;
+      ghText.spellcheck = false;
+      ghText.textContent = g.title;
+      
+      ghText.addEventListener('blur', (e) => {
+        const newTitle = e.target.textContent.trim();
+        if (newTitle && newTitle !== g.title) {
+          const oldTitle = g.title;
+          
+          g.items.forEach(item => {
+            const oldKey = itemKey(s.id, oldTitle, item);
+            const newKey = itemKey(s.id, newTitle, item);
+            if (state[oldKey] !== undefined) { state[newKey] = state[oldKey]; delete state[oldKey]; }
+            if (notes[oldKey] !== undefined) { notes[newKey] = notes[oldKey]; delete notes[oldKey]; }
+          });
+          
+          g.title = newTitle;
+          saveState(); saveSections(); build(); 
+        } else { e.target.textContent = g.title; }
+      });
+      ghText.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } });
+      
+      const delGroupBtn = document.createElement('button');
+      delGroupBtn.className = 'delete-btn';
+      delGroupBtn.innerHTML = '✖';
+      delGroupBtn.onclick = () => deleteGroup(sIndex, gIndex);
+      
+      gh.appendChild(ghText);
+      gh.appendChild(delGroupBtn);
       section.appendChild(gh);
  
       const cl = document.createElement('div');
       cl.className = 'checklist';
       cl.dataset.groupItems = `${s.id}||${g.title}`;
  
-      g.items.forEach(item => {
+      g.items.forEach((item, iIndex) => {
         const key = itemKey(s.id, g.title, item);
         const row = document.createElement('div');
-        row.className = `check-item accent-${s.color}` + (state[key] ? ' done' : '');
+        row.className = 'check-item' + (state[key] ? ' done' : '');
  
-        const hasNotes = s.id !== 'packing' && s.id !== 'grocery';
-        const noteVal  = notes[key] || '';
-        const noteHtml = hasNotes
-          ? `<input type="text" class="item-notes" placeholder="Notes…" value="${noteVal.replace(/"/g,'&quot;')}">`
-          : '';
+        const noteVal = notes[key] || '';
+        // Change from input to textarea for multi-line support
+        const noteHtml = `<textarea class="item-notes" placeholder="Notes…" rows="1">${noteVal.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>`;
  
         row.innerHTML = `
           <div class="checkbox">
-            <svg class="checkmark" viewBox="0 0 13 10">
-              <path d="M1.5 5l3.5 3.5 6.5-7"/>
+            <svg class="checkmark" viewBox="0 0 11 8">
+              <path d="M1 4l3 3 6-6"/>
             </svg>
           </div>
           <div class="item-content">
-            <span class="item-label">${item}</span>
+            <span class="item-label editable-text" contenteditable="true" spellcheck="false">${item}</span>
             ${noteHtml}
           </div>
+          <button class="delete-btn" onclick="deleteItem(${sIndex}, ${gIndex}, ${iIndex})">✖</button>
         `;
+        
+        // Item Rename logic
+        const labelEl = row.querySelector('.item-label');
+        labelEl.addEventListener('blur', (e) => {
+          const newItem = e.target.textContent.trim();
+          if (newItem && newItem !== item) {
+            const oldKey = itemKey(s.id, g.title, item);
+            const newKey = itemKey(s.id, g.title, newItem);
+            if (state[oldKey] !== undefined) { state[newKey] = state[oldKey]; delete state[oldKey]; }
+            if (notes[oldKey] !== undefined) { notes[newKey] = notes[oldKey]; delete notes[oldKey]; }
+            
+            SECTIONS[sIndex].groups[gIndex].items[iIndex] = newItem;
+            saveState(); saveSections(); build();
+          } else {
+            e.target.textContent = item;
+          }
+        });
+        labelEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } });
  
         row.addEventListener('click', e => {
-          if (e.target.classList.contains('item-notes')) return;
+          if (e.target.classList.contains('item-notes') || e.target.classList.contains('editable-text') || e.target.classList.contains('delete-btn')) return;
           toggleItem(key, row);
         });
- 
-        if (hasNotes) {
-          row.querySelector('.item-notes').addEventListener('input', e => {
-            notes[key] = e.target.value;
-            saveState();
-          });
+        
+        const notesInput = row.querySelector('.item-notes');
+        notesInput.addEventListener('input', e => {
+          notes[key] = e.target.value; 
+          saveState();
+          // Auto-resize logic
+          e.target.style.height = 'auto';
+          e.target.style.height = e.target.scrollHeight + 'px';
+        });
+        
+        // Ensure previously saved notes resize properly on page load
+        if (noteVal) {
+          setTimeout(() => {
+            notesInput.style.height = 'auto';
+            notesInput.style.height = notesInput.scrollHeight + 'px';
+          }, 0);
         }
  
         cl.appendChild(row);
       });
+      
+      const addItemBtn = document.createElement('button');
+      addItemBtn.className = 'add-btn';
+      addItemBtn.textContent = '+ Add Item';
+      addItemBtn.onclick = () => addItem(sIndex, gIndex);
+      cl.appendChild(addItemBtn);
  
       section.appendChild(cl);
     });
+    
+    const addGroupBtn = document.createElement('button');
+    addGroupBtn.className = 'add-btn';
+    addGroupBtn.textContent = '+ Add Category';
+    addGroupBtn.style.marginTop = '20px';
+    addGroupBtn.onclick = () => addGroup(sIndex);
+    section.appendChild(addGroupBtn);
  
     wrap.appendChild(section);
   });
+  
+  // Add Section Button in Tabs
+  const addSecTab = document.createElement('div');
+  addSecTab.className = 'tab';
+  addSecTab.style.display = 'none'; // Hidden by default
+  addSecTab.classList.add('add-sec-tab');
+  addSecTab.innerHTML = `<span style="font-size: 16px; font-weight: 800; line-height: 1;">+</span>`;
+  addSecTab.onclick = addSection;
+  tabsNav.appendChild(addSecTab);
+  
+  // If edit mode is on, ensure the + tab is visible
+  if (isEditMode) {
+      document.querySelectorAll('.add-sec-tab').forEach(el => el.style.display = 'flex');
+  } else {
+      document.querySelectorAll('.add-sec-tab').forEach(el => el.style.display = 'none');
+  }
  
   updateProgress();
-  initSearch();
+  if (!document.getElementById('search-input').dataset.initialized) {
+     initSearch();
+     document.getElementById('search-input').dataset.initialized = 'true';
+  }
 }
  
+// Tie the style toggle for the add section tab to the main edit toggle
+const originalToggleEditMode = toggleEditMode;
+toggleEditMode = function() {
+    originalToggleEditMode();
+    document.querySelectorAll('.add-sec-tab').forEach(el => el.style.display = isEditMode ? 'flex' : 'none');
+}
+
 build();
 </script>
 </body>
